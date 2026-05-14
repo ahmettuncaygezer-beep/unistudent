@@ -1,0 +1,163 @@
+{
+    "THYAO": {
+        "price": 330.75,
+        "change_pct": 0.76,
+        "prev_close": 328.25,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "SISE": {
+        "price": 47.42,
+        "change_pct": -0.96,
+        "prev_close": 47.88,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "ASELS": {
+        "price": 404.75,
+        "change_pct": -0.8,
+        "prev_close": 408,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "EREGL": {
+        "price": 34.12,
+        "change_pct": 2.46,
+        "prev_close": 33.3,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "TUPRS": {
+        "price": 256,
+        "change_pct": 0.39,
+        "prev_close": 255,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "BIMAS": {
+        "price": 759,
+        "change_pct": 0.4,
+        "prev_close": 756,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "GARAN": {
+        "price": 144.1,
+        "change_pct": 0.07,
+        "prev_close": 144,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "AKBNK": {
+        "price": 82.2,
+        "change_pct": 0.43,
+        "prev_close": 81.85,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "YKBNK": {
+        "price": 39.02,
+        "change_pct": 0.77,
+        "prev_close": 38.72,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "SAHOL": {
+        "price": 101.8,
+        "change_pct": -1.07,
+        "prev_close": 102.9,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "KCHOL": {
+        "price": 208.1,
+        "change_pct": 0.05,
+        "prev_close": 208,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "TCELL": {
+        "price": 116.1,
+        "change_pct": -1.36,
+        "prev_close": 117.7,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "FROTO": {
+        "price": 104,
+        "change_pct": -3.26,
+        "prev_close": 107.5,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "TOASO": {
+        "price": 288,
+        "change_pct": -1.37,
+        "prev_close": 292,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "PETKM": {
+        "price": 23.12,
+        "change_pct": 2.85,
+        "prev_close": 22.48,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "VESTL": {
+        "price": 29.36,
+        "change_pct": -1.21,
+        "prev_close": 29.72,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "TAVHL": {
+        "price": 312,
+        "change_pct": 0,
+        "prev_close": 312,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "MGROS": {
+        "price": 664,
+        "change_pct": 0.61,
+        "prev_close": 660,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "ENKAI": {
+        "price": 105.5,
+        "change_pct": -1.86,
+        "prev_close": 107.5,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "SASA": {
+        "price": 2.97,
+        "change_pct": -3.57,
+        "prev_close": 3.08,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "EKGYO": {
+        "price": 21.52,
+        "change_pct": -1.37,
+        "prev_close": 21.82,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "HEKTS": {
+        "price": 3.27,
+        "change_pct": -6.03,
+        "prev_close": 3.48,
+        "source": "yahoo",
+        "type": "bist"
+    },
+    "TTKOM": {
+        "price": 65.15,
+        "change_pct": -1.88,
+        "prev_close": 66.4,
+        "source": "yahoo",
+        "type": "bist"
+    }
+}

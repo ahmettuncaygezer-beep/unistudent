@@ -1,0 +1,302 @@
+/* ============================================================
+   ÜniBütçe — Ultra Premium UI Layer
+   Cursor · Magnetic · 3D Tilt · Gradient Mesh · View Transitions
+   ============================================================ */
+
+:root {
+    --ub-cursor-size: 10px;
+    --ub-cursor-ring: 36px;
+    --ub-glow: 0 0 40px rgba(0, 136, 255, 0.35);
+    --ub-premium-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Custom Cursor (desktop only) ---------- */
+@media (hover: hover) and (pointer: fine) {
+    html.ub-premium-cursor, html.ub-premium-cursor * {
+        cursor: none !important;
+    }
+    html.ub-premium-cursor a, html.ub-premium-cursor button,
+    html.ub-premium-cursor input, html.ub-premium-cursor textarea,
+    html.ub-premium-cursor select, html.ub-premium-cursor [contenteditable] {
+        cursor: none !important;
+    }
+}
+
+.ub-cursor-dot, .ub-cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 99999;
+    border-radius: 50%;
+    transform: translate3d(-100px, -100px, 0);
+    will-change: transform;
+}
+.ub-cursor-dot {
+    width: var(--ub-cursor-size);
+    height: var(--ub-cursor-size);
+    background: linear-gradient(135deg, #0088ff, #7d5cff);
+    box-shadow: 0 0 20px rgba(0, 136, 255, 0.6);
+    transition: width .18s, height .18s, background .2s;
+}
+.ub-cursor-ring {
+    width: var(--ub-cursor-ring);
+    height: var(--ub-cursor-ring);
+    border: 1.5px solid rgba(0, 136, 255, 0.45);
+    transition: transform .12s linear, width .25s var(--ub-premium-ease),
+                height .25s var(--ub-premium-ease), border-color .2s;
+    backdrop-filter: blur(2px);
+}
+.ub-cursor-ring.ub-hover {
+    width: 64px; height: 64px;
+    border-color: rgba(125, 92, 255, 0.7);
+    background: rgba(125, 92, 255, 0.06);
+}
+.ub-cursor-dot.ub-hover {
+    width: 6px; height: 6px;
+}
+.ub-cursor-dot.ub-click {
+    transform: translate3d(var(--cx, 0), var(--cy, 0), 0) scale(2.2);
+}
+
+/* ---------- Magnetic Buttons ---------- */
+.ub-magnetic {
+    display: inline-block;
+    transition: transform .4s var(--ub-premium-ease);
+    will-change: transform;
+}
+.ub-magnetic-inner {
+    display: inline-block;
+    transition: transform .35s var(--ub-premium-ease);
+    will-change: transform;
+}
+
+/* ---------- 3D Tilt Cards ---------- */
+.ub-tilt {
+    transform-style: preserve-3d;
+    transition: transform .4s var(--ub-premium-ease), box-shadow .4s ease;
+    will-change: transform;
+}
+.ub-tilt::before {
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%),
+                rgba(125, 92, 255, 0.12), transparent 40%);
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+.ub-tilt.ub-tilting::before { opacity: 1; }
+.ub-tilt.ub-tilting { box-shadow: var(--ub-glow), 0 30px 60px -20px rgba(0, 0, 0, 0.35); }
+
+/* ---------- Animated Gradient Mesh Background ---------- */
+.ub-mesh {
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+    overflow: hidden;
+    filter: blur(80px);
+    opacity: 0.55;
+    pointer-events: none;
+}
+.ub-mesh::before, .ub-mesh::after {
+    content: "";
+    position: absolute;
+    width: 60vmax; height: 60vmax;
+    border-radius: 50%;
+    animation: ub-float 22s infinite ease-in-out;
+}
+.ub-mesh::before {
+    top: -10%; left: -10%;
+    background: radial-gradient(circle, #0088ff, transparent 60%);
+}
+.ub-mesh::after {
+    bottom: -15%; right: -15%;
+    background: radial-gradient(circle, #7d5cff, transparent 60%);
+    animation-duration: 28s;
+    animation-direction: reverse;
+}
+@keyframes ub-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(12vw, -8vh) scale(1.15); }
+    66%      { transform: translate(-10vw, 10vh) scale(0.92); }
+}
+
+/* ---------- Scroll Reveal ---------- */
+.ub-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .8s var(--ub-premium-ease),
+                transform .8s var(--ub-premium-ease);
+}
+.ub-reveal.ub-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+.ub-reveal-scale { transform: scale(0.92); }
+.ub-reveal-scale.ub-revealed { transform: scale(1); }
+
+/* ---------- Shimmer Skeleton ---------- */
+.ub-skeleton {
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0.05) 0%,
+        rgba(255,255,255,0.15) 50%,
+        rgba(255,255,255,0.05) 100%);
+    background-size: 200% 100%;
+    animation: ub-shimmer 1.4s infinite;
+    border-radius: 10px;
+}
+@keyframes ub-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ---------- View Transitions ---------- */
+@supports (view-transition-name: root) {
+    ::view-transition-old(root), ::view-transition-new(root) {
+        animation-duration: .45s;
+        animation-timing-function: var(--ub-premium-ease);
+    }
+}
+
+/* ---------- Command Palette ---------- */
+.ub-cmdk-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(8, 10, 20, 0.55);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+}
+.ub-cmdk-backdrop.ub-open { opacity: 1; pointer-events: auto; }
+
+.ub-cmdk {
+    position: fixed;
+    top: 15vh; left: 50%;
+    transform: translate(-50%, -20px) scale(0.96);
+    width: min(620px, 92vw);
+    background: rgba(16, 18, 30, 0.92);
+    border: 1px solid rgba(125, 92, 255, 0.28);
+    border-radius: 18px;
+    box-shadow: 0 30px 80px -10px rgba(0, 0, 0, 0.6), var(--ub-glow);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s var(--ub-premium-ease),
+                transform .25s var(--ub-premium-ease);
+    overflow: hidden;
+    color: #f0f2ff;
+    font-family: inherit;
+}
+.ub-cmdk.ub-open {
+    opacity: 1; pointer-events: auto;
+    transform: translate(-50%, 0) scale(1);
+}
+.ub-cmdk-input {
+    width: 100%;
+    padding: 18px 22px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: #fff;
+    font-size: 1.05rem;
+    outline: none;
+}
+.ub-cmdk-input::placeholder { color: rgba(255,255,255,0.4); }
+.ub-cmdk-list { max-height: 56vh; overflow: auto; padding: 8px; }
+.ub-cmdk-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .15s;
+    font-size: .95rem;
+}
+.ub-cmdk-item:hover,
+.ub-cmdk-item.ub-active {
+    background: linear-gradient(135deg, rgba(0,136,255,0.18), rgba(125,92,255,0.18));
+}
+.ub-cmdk-item-icon {
+    font-size: 1.15rem;
+    width: 26px; text-align: center;
+}
+.ub-cmdk-item-label { flex: 1; }
+.ub-cmdk-item-hint {
+    font-size: .75rem;
+    color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px; border-radius: 6px;
+}
+.ub-cmdk-empty {
+    padding: 32px; text-align: center;
+    color: rgba(255,255,255,0.5);
+}
+.ub-cmdk-footer {
+    display: flex; justify-content: space-between;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: .72rem;
+    color: rgba(255,255,255,0.45);
+    background: rgba(0,0,0,0.15);
+}
+kbd.ub-kbd {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-bottom-width: 2px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: .7rem;
+    font-family: ui-monospace, Menlo, monospace;
+}
+
+/* ---------- Global Keyboard Hint ---------- */
+.ub-cmdk-launcher {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: rgba(16, 18, 30, 0.85);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: .82rem;
+    border: 1px solid rgba(125, 92, 255, 0.3);
+    cursor: pointer;
+    z-index: 9990;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 10px 30px -6px rgba(0,0,0,0.35);
+    transition: transform .25s var(--ub-premium-ease);
+}
+.ub-cmdk-launcher:hover { transform: translateY(-2px) scale(1.05); }
+@media (max-width: 720px) {
+    .ub-cmdk-launcher { display: none; }
+}
+
+/* ---------- Anomaly Alert Toast ---------- */
+.ub-anomaly-toast {
+    position: fixed; top: 86px; right: 24px;
+    max-width: 340px;
+    background: linear-gradient(135deg, #ff5e7e, #ff3b30);
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 14px;
+    box-shadow: 0 20px 40px -10px rgba(255, 59, 48, 0.45);
+    z-index: 9990;
+    animation: ub-slide-left .5s var(--ub-premium-ease);
+}
+@keyframes ub-slide-left {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    .ub-cursor-dot, .ub-cursor-ring, .ub-mesh { display: none !important; }
+}

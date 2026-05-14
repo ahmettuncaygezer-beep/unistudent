@@ -1,0 +1,20 @@
+# ÜniBütçe Admin API — Güvenlik Kuralları
+
+# JSON config dosyalarına doğrudan erişimi engelle
+<Files "ai_config.json">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Debug ve log dosyalarına erişimi engelle
+<FilesMatch "\.(txt|log)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# PHP olmayan zararlı çalıştırmaları engelle
+Options -ExecCGI
+AddHandler cgi-script .php .pl .py .jsp .asp .htm .shtml .sh .cgi
+
+# Directory listing'i kapat
+Options -Indexes

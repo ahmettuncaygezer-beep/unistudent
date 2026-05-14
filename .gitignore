@@ -1,0 +1,43 @@
+# Hassas ortam bilgileri
+.env
+.env.local
+.env.production
+
+# Vendor / node
+/vendor/
+/node_modules/
+
+# Frontend build artifacts
+/frontend/node_modules/
+/frontend/.svelte-kit/
+/frontend/build/
+
+# Admin AI config (API key)
+/admin/api/ai_config.json
+
+# Log dosyaları
+*.log
+error_log
+
+# OS dosyaları
+.DS_Store
+Thumbs.db
+
+# Blog yüklenen görseller
+/assets/images/blog/*
+!/assets/images/blog/.gitkeep
+
+# Geçici / test dosyaları
+/cities_raw.json
+/cities_raw_fixed.json
+/scratch_test.js
+/extract.js
+/tmp_test_*.php
+/debug_*.txt
+/fix_*.ps1
+
+# Vercel build
+.vercel
+
+# AI assistant files
+.claude/

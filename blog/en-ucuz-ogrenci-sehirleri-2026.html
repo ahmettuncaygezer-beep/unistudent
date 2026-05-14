@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>2026'nın En Ucuz Öğrenci Şehirleri — ÜniBütçe Blog</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav class="navbar scrolled">
+        <div class="container">
+            <a href="../index.php" class="nav-logo" style="display:flex; align-items:center;">
+                <svg class="pub-nav-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 28px; height: 28px; margin-right: 10px;">
+                    <defs>
+                        <filter id="pub-logo-glow" x="-30%" y="-30%" width="160%" height="160%">
+                            <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                            <feComponentTransfer in="blur" result="glow1"><feFuncA type="linear" slope="1.5"/></feComponentTransfer>
+                            <feMerge><feMergeNode in="glow1"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    <path d="M50 25 L15 40 L50 55 L85 40 Z" fill="#FFFFFF" opacity="0.95"/>
+                    <path d="M30 46 L30 65 Q50 80 70 65 L70 46" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.8"/>
+                    <path d="M85 40 L85 65" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+                    <circle cx="85" cy="68" r="4" fill="#6FFF00" filter="url(#pub-logo-glow)"/>
+                    <path d="M10 80 L35 55 L55 70 L95 25" stroke="#6FFF00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" filter="url(#pub-logo-glow)"/>
+                    <path d="M75 25 L95 25 L95 45" stroke="#6FFF00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" filter="url(#pub-logo-glow)"/>
+                </svg>
+                <span>ÜniBütçe</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.php#budget">Bütçe</a></li>
+                <li><a href="../index.php#cities">Şehirler</a></li>
+                <li><a href="../blog.php" class="active">Blog</a></li>
+                <li><a href="../index.php#budget" class="nav-cta">Hesapla →</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Menü"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <article class="blog-article container">
+        <a href="../blog.php" class="blog-back">← Blog'a Dön</a>
+
+        <header class="blog-article-header">
+            <div class="blog-article-tag">📝 Blog Yazısı</div>
+            <h1>2026'nın En Ucuz Öğrenci Şehirleri</h1>
+            <div class="blog-article-meta">
+                <span>🗓️ February 2026</span>
+                <span>⏱️ Okuma süresi hesaplanıyor...</span>
+            </div>
+        </header>
+
+        
+        
+        <div class="blog-toc">
+            <div class="blog-toc-title">📋 İçindekiler</div>
+            <ol>
+                <li><a href="#en-ucuz">En Ucuz 10 Şehir</a></li>
+                <li><a href="#en-pahali">En Pahalı 5 Şehir</a></li>
+                <li><a href="#fiyat-performans">En İyi Fiyat-Performans</a></li>
+                <li><a href="#kyk-avantaj">KYK ile Yaşam: Şehir Farkı Kapanır mı?</a></li>
+                <li><a href="#detay">Kategori Bazlı Karşılaştırma</a></li>
+                <li><a href="#tavsiye">Tavsiyeler</a></li>
+            </ol>
+        </div>
+
+        <p>Üniversite tercih döneminde şehir seçimi sadece akademik değil, <strong>ekonomik bir karar</strong> olarak da
+            büyük önem taşıyor. 2026 yılı verilerine göre Türkiye'nin 81 ilindeki öğrenci yaşam maliyetlerini
+            karşılaştırdık. Bu rehber, özellikle tercih yapacak öğrenciler ve aileler için hazırlandı.</p>
+
+        <div class="blog-info-box highlight">
+            <p>📊 <strong>Metodoloji:</strong> Bu veriler, platformumuzdan toplanan öğrenci verileri, TÜFE endeksi,
+                kiralık ev ilanları ve KYK geri bildirimlerinin birleşimiyle hesaplanmıştır. Tüm veriler paylaşımlı ev +
+                yemekhane ağırlıklı + toplu taşıma senaryosuna göre değerlendirilmiştir.</p>
+        </div>
+
+        <h2 id="en-ucuz">🏆 En Ucuz 10 Öğrenci Şehri (Aylık Toplam Maliyet)</h2>
+
+        <p>Paylaşımlı ev, yemekhane ağırlıklı beslenme ve toplu taşıma kullanımı baz alınarak hesaplanan aylık toplam
+            giderler:</p>
+
+        <div class="blog-table-wrapper">
+            <table class="blog-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Şehir</th>
+                        <th>Kira (Paylaşımlı)</th>
+                        <th>Yemek</th>
+                        <th>Ulaşım</th>
+                        <th>Toplam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>🥇 Kilis</strong></td>
+                        <td>3.600 ₺</td>
+                        <td>3.800 ₺</td>
+                        <td>500 ₺</td>
+                        <td class="highlight-value"><strong>8.650 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>🥈 Ardahan</strong></td>
+                        <td>3.600 ₺</td>
+                        <td>3.800 ₺</td>
+                        <td>500 ₺</td>
+                        <td class="highlight-value"><strong>8.650 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>🥉 Bayburt</strong></td>
+                        <td>3.800 ₺</td>
+                        <td>4.000 ₺</td>
+                        <td>550 ₺</td>
+                        <td class="highlight-value"><strong>9.100 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>Ağrı</strong></td>
+                        <td>4.000 ₺</td>
+                        <td>4.000 ₺</td>
+                        <td>550 ₺</td>
+                        <td class="highlight-value"><strong>9.350 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>Iğdır</strong></td>
+                        <td>4.000 ₺</td>
+                        <td>4.000 ₺</td>
+                        <td>550 ₺</td>
+                        <td class="highlight-value"><strong>9.350 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><strong>Muş</strong></td>
+                        <td>4.000 ₺</td>
+                        <td>4.000 ₺</td>
+                        <td>550 ₺</td>
+                        <td class="highlight-value"><strong>9.350 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td><strong>Çankırı</strong></td>
+                        <td>4.200 ₺</td>
+                        <td>4.200 ₺</td>
+                        <td>600 ₺</td>
+                        <td class="highlight-value"><strong>9.600 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td><strong>Bingöl</strong></td>
+                        <td>4.200 ₺</td>
+                        <td>4.200 ₺</td>
+                        <td>600 ₺</td>
+                        <td class="highlight-value"><strong>9.600 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td><strong>Tunceli</strong></td>
+                        <td>4.400 ₺</td>
+                        <td>4.400 ₺</td>
+                        <td>650 ₺</td>
+                        <td class="highlight-value"><strong>10.100 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td><strong>Kastamonu</strong></td>
+                        <td>4.400 ₺</td>
+                        <td>4.400 ₺</td>
+                        <td>650 ₺</td>
+                        <td class="highlight-value"><strong>10.100 ₺</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="en-pahali">💸 En Pahalı 5 Öğrenci Şehri</h2>
+
+        <div class="blog-table-wrapper">
+            <table class="blog-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Şehir</th>
+                        <th>Kira (Paylaşımlı)</th>
+                        <th>Yemek</th>
+                        <th>Ulaşım</th>
+                        <th>Toplam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>🔴 İstanbul</strong></td>
+                        <td>13.000 ₺</td>
+                        <td>8.000 ₺</td>
+                        <td>1.800 ₺</td>
+                        <td class="highlight-value"><strong>26.300 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>🔴 İzmir</strong></td>
+                        <td>11.000 ₺</td>
+                        <td>7.500 ₺</td>
+                        <td>1.400 ₺</td>
+                        <td class="highlight-value"><strong>22.500 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>🔴 Ankara</strong></td>
+                        <td>10.000 ₺</td>
+                        <td>7.000 ₺</td>
+                        <td>1.200 ₺</td>
+                        <td class="highlight-value"><strong>21.000 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>🔴 Antalya</strong></td>
+                        <td>10.500 ₺</td>
+                        <td>7.200 ₺</td>
+                        <td>1.200 ₺</td>
+                        <td class="highlight-value"><strong>21.500 ₺</strong></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>🔴 Kocaeli</strong></td>
+                        <td>9.000 ₺</td>
+                        <td>6.500 ₺</td>
+                        <td>1.100 ₺</td>
+                        <td class="highlight-value"><strong>19.200 ₺</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="fiyat-performans">⭐ En İyi Fiyat-Performans Şehirler</h2>
+
+        <p>Sadece ucuz olmak yetmiyor; üniversite kalitesi, sosyal yaşam ve ulaşım altyapısını da düşünmek gerekiyor.
+            İşte <strong>hem uygun hem kaliteli</strong> şehirler:</p>
+
+        <div class="blog-table-wrapper">
+            <table class="blog-table">
+                <thead>
+                    <tr>
+                        <th>Şehir</th>
+                        <th>Aylık Maliyet</th>
+                        <th>Yaşam Skoru</th>
+                        <th>Neden İyi?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>⭐ Eskişehir</strong></td>
+                        <td class="highlight-value">12.200 ₺</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>Öğrenci şehri, tramvay, zengin sosyal yaşam</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⭐ Kayseri</strong></td>
+                        <td class="highlight-value">11.200 ₺</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>Erciyes Üni, kayak, ekonomik</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⭐ Konya</strong></td>
+                        <td class="highlight-value">11.350 ₺</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>Selçuk Üni, düşük kira, doğal yaşam</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⭐ Trabzon</strong></td>
+                        <td class="highlight-value">12.950 ₺</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>Doğa, uygun yaşam, KTÜ kalitesi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⭐ Edirne</strong></td>
+                        <td class="highlight-value">11.750 ₺</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>Trakya Üni, tarihi şehir, uygun kiralar</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⭐ Denizli</strong></td>
+                        <td class="highlight-value">11.200 ₺</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>PAÜ, Pamukkale, ekonomik yaşam</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⭐ Çanakkale</strong></td>
+                        <td class="highlight-value">12.900 ₺</td>
+                        <td>⭐⭐⭐⭐½</td>
+                        <td>ÇOMÜ, deniz kenarı, öğrenci dostu</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="blog-info-box tip">
+            <p>💡 <strong>En İyi Seçim:</strong> Eskişehir, Türkiye'nin tartışmasız en öğrenci dostu şehri. Tramvay
+                sistemi, uygun kiralar, Barlar Sokağı'nın canlı atmosferi ve iki güçlü üniversite (Anadolu & Osmangazi)
+                ile fiyat-performans şampiyonu.</p>
+        </div>
+
+        <h2 id="kyk-avantaj">🏠 KYK ile Yaşam: Şehir Farkı Kapanır mı?</h2>
+
+        <p>KYK yurdunda kalıyorsanız, kira giderini neredeyse sıfırlamış olursunuz (aylık 725-1.200₺). Bu durumda
+            şehirler
+            arası fark önemli ölçüde azalır:</p>
+
+        <div class="blog-table-wrapper">
+            <table class="blog-table">
+                <thead>
+                    <tr>
+                        <th>Şehir</th>
+                        <th>Ev ile Yaşam</th>
+                        <th>KYK ile Yaşam</th>
+                        <th>Fark</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>İstanbul</td>
+                        <td>26.300 ₺</td>
+                        <td class="highlight-value">14.300 ₺</td>
+                        <td>-12.000 ₺</td>
+                    </tr>
+                    <tr>
+                        <td>Ankara</td>
+                        <td>21.000 ₺</td>
+                        <td class="highlight-value">12.000 ₺</td>
+                        <td>-9.000 ₺</td>
+                    </tr>
+                    <tr>
+                        <td>Eskişehir</td>
+                        <td>12.200 ₺</td>
+                        <td class="highlight-value">8.700 ₺</td>
+                        <td>-3.500 ₺</td>
+                    </tr>
+                    <tr>
+                        <td>Kayseri</td>
+                        <td>11.200 ₺</td>
+                        <td class="highlight-value">8.000 ₺</td>
+                        <td>-3.200 ₺</td>
+                    </tr>
+                    <tr>
+                        <td>Kilis</td>
+                        <td>8.650 ₺</td>
+                        <td class="highlight-value">6.050 ₺</td>
+                        <td>-2.600 ₺</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="blog-info-box warning">
+            <p>⚠️ <strong>Önemli:</strong> KYK yurduna yerleşme garantisi yok! Her yıl kontenjan sınırlı olduğundan,
+                tercih ederken hem KYK hem ev bütçesini hesaba katın.</p>
+        </div>
+
+        <h2 id="detay">📊 Kategori Bazlı Karşılaştırma</h2>
+
+        <h3>🏠 En Ucuz Kira Şehirleri (Paylaşımlı)</h3>
+        <ol>
+            <li><strong>Kilis:</strong> 3.600 ₺</li>
+            <li><strong>Ardahan:</strong> 3.600 ₺</li>
+            <li><strong>Bayburt:</strong> 3.800 ₺</li>
+            <li><strong>Ağrı:</strong> 4.000 ₺</li>
+            <li><strong>Muş:</strong> 4.000 ₺</li>
+        </ol>
+
+        <h3>🍽️ En Ucuz Yemek Şehirleri</h3>
+        <ol>
+            <li><strong>Kilis:</strong> 3.800 ₺</li>
+            <li><strong>Ardahan:</strong> 3.800 ₺</li>
+            <li><strong>Ağrı:</strong> 4.000 ₺</li>
+            <li><strong>Muş:</strong> 4.000 ₺</li>
+            <li><strong>Bayburt:</strong> 4.000 ₺</li>
+        </ol>
+
+        <h3>🚌 En Ucuz Ulaşım Şehirleri</h3>
+        <ol>
+            <li><strong>Kilis:</strong> 500 ₺ (yürünebilir şehir merkezi)</li>
+            <li><strong>Ardahan:</strong> 500 ₺</li>
+            <li><strong>Ağrı:</strong> 550 ₺</li>
+            <li><strong>Muş:</strong> 550 ₺</li>
+            <li><strong>Bayburt:</strong> 550 ₺</li>
+        </ol>
+
+        <h2 id="tavsiye">🎯 Genel Tavsiyeler</h2>
+
+        <ol>
+            <li><strong>Sadece fiyata bakma:</strong> En ucuz şehir her zaman en iyi olmayabilir. Üniversite kalitesi,
+                sosyal ortam ve kariyer fırsatlarını da değerlendirin.</li>
+            <li><strong>KYK başvurusu mutlaka yapın:</strong> Hangi şehirde olursanız olun, KYK yurdu en büyük tasarruf
+                kaleminiz olabilir.</li>
+            <li><strong>Eskişehir ve benzeri "öğrenci şehirleri" düşünün:</strong> Fiyat-performans açısından
+                büyükşehirlere kıyasla çok daha avantajlı.</li>
+            <li><strong>Memlekete yakın şehir avantajlı:</strong> Yol masrafı ve "eve gidip gelme" maliyetini unutmayın.
+            </li>
+            <li><strong>Part-time iş imkânlarını araştırın:</strong> Büyük şehirlerde iş fırsatı daha fazla, bu da
+                maliyet dengesini değiştirebilir.</li>
+        </ol>
+
+        <div class="blog-cta">
+            <h3>📊 Bütçeni Planla</h3>
+            <p>Üniversite hayatında bütçeni doğru yönetmek için hemen hesaplama yap.</p>
+            <a href="../index.php#budget" class="btn btn-primary">📊 Bütçemi Hesapla</a>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2026 ÜniBütçe — Öğrenciler için, öğrenciler tarafından ❤️ ile yapıldı.</p>
+            </div>
+        </div>
+    </footer>
+    <script>document.getElementById('hamburger')?.addEventListener('click', function () { this.classList.toggle('active'); document.getElementById('navLinks').classList.toggle('open'); });</script>
+</body>
+</html>

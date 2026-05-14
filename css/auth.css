@@ -1,0 +1,391 @@
+/* Auth Modal Styles (Modern Cyber UI / Orbis) */
+.auth-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    overflow-y: auto;
+    background-color: rgba(5, 5, 16, 0.75);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.auth-modal-content {
+    background: linear-gradient(145deg, rgba(16, 18, 27, 0.9), rgba(22, 24, 35, 0.95));
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    margin: auto;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 440px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 136, 255, 0.1);
+    position: relative;
+    color: #fff;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 28px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+    background: rgba(255, 255, 255, 0.05);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.close-modal:hover {
+    color: #fff;
+    background: rgba(255, 59, 48, 0.2);
+    transform: rotate(90deg);
+}
+
+.auth-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.auth-tab {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s;
+    font-weight: 600;
+    border-radius: 10px;
+    flex: 1;
+}
+
+.auth-tab.active {
+    color: #fff;
+    background: rgba(0, 136, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 136, 255, 0.1);
+}
+
+.auth-form {
+    display: none;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.auth-form.active {
+    display: flex;
+    animation: authFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes authFadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-form h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-align: center;
+    background: linear-gradient(to right, #ffffff, #a0c4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.form-group input {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-cyan, #00f0ff);
+    background: rgba(0, 136, 255, 0.05);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.form-hint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 6px;
+}
+
+/* Social Buttons */
+.social-login-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.btn-social img {
+    width: 22px;
+    height: 22px;
+}
+
+.btn-social.google:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-social.facebook {
+    background-color: rgba(24, 119, 242, 0.1);
+    border-color: rgba(24, 119, 242, 0.3);
+    color: #fff;
+}
+
+.btn-social.facebook:hover {
+    background-color: rgba(24, 119, 242, 0.2);
+    transform: translateY(-2px);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 15px 0;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.divider span {
+    padding: 0 15px;
+}
+
+.btn-primary {
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0088ff, #7d5cff);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 136, 255, 0.4);
+}
+
+.auth-message {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+    min-height: 20px;
+    font-weight: 500;
+}
+
+.auth-message.success {
+    color: #00e676;
+}
+
+.auth-message.error {
+    color: #ff3b30;
+}
+
+/* Custom Searchable Select */
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+}
+
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-select__trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    font-size: 15px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.custom-select__trigger:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.custom-select.open .custom-select__trigger {
+    border-color: var(--accent-cyan, #00f0ff);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background: rgba(0, 136, 255, 0.05);
+}
+
+.custom-select__options {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-top: 0;
+    background: rgba(16, 18, 27, 0.98);
+    backdrop-filter: blur(20px);
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 100;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    max-height: 220px;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.custom-select.open .custom-select__options {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.custom-option {
+    position: relative;
+    display: block;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.custom-option:hover,
+.custom-option.selected {
+    color: #fff;
+    background-color: rgba(0, 136, 255, 0.15);
+    padding-left: 20px;
+}
+
+.arrow {
+    position: relative;
+    height: 10px;
+    width: 10px;
+}
+
+.arrow::before,
+.arrow::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    width: 0.15rem;
+    height: 100%;
+    transition: all 0.3s;
+}
+
+.arrow::before {
+    left: -3px;
+    transform: rotate(45deg);
+    background-color: #aaa;
+}
+
+.arrow::after {
+    left: 3px;
+    transform: rotate(-45deg);
+    background-color: #aaa;
+}
+
+.open .arrow::before {
+    left: -3px;
+    transform: rotate(-45deg);
+    background-color: var(--accent-cyan, #00f0ff);
+}
+
+.open .arrow::after {
+    left: 3px;
+    transform: rotate(45deg);
+    background-color: var(--accent-cyan, #00f0ff);
+}
+
+/* Scrollbar for select and modal */
+.custom-select__options::-webkit-scrollbar,
+.auth-modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-select__options::-webkit-scrollbar-thumb,
+.auth-modal-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
