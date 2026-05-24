@@ -2,15 +2,15 @@
 Options -Indexes
 
 # ────────────────────────────────────────────────────────────────
-# HTTPS Zorlaması (Hosting SSL sertifikası aktif ise devreye girer)
+# HTTPS Zorlaması — SSL sertifikası kurulduktan sonra # işaretlerini kaldır
 # ────────────────────────────────────────────────────────────────
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-# HTTPS Zorlaması — SSL sertifikası kurulduktan sonra aktif et:
-# RewriteCond %{HTTPS} off
-# RewriteCond %{HTTP:X-Forwarded-Proto} !https
-# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    # HTTP → HTTPS yönlendir (aktif etmek için aşağıdaki 3 satırın # işaretini kaldır)
+    # RewriteCond %{HTTPS} off
+    # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     # /sitemap.xml -> sitemap.php
     RewriteRule ^sitemap\.xml$ sitemap.php [L]
@@ -18,8 +18,8 @@ Options -Indexes
     # /blog/slug -> /blog/slug.html (uzantısız SEO URL'leri)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} ^/unistudent/blog/([^/.]+)$
-    RewriteRule ^blog/([^/.]+)$ /unistudent/blog/$1.html [L]
+    RewriteCond %{REQUEST_URI} ^/blog/([^/.]+)$
+    RewriteRule ^blog/([^/.]+)$ /blog/$1.html [L]
 </IfModule>
 
 # ────────────────────────────────────────────────────────────────
@@ -30,17 +30,30 @@ Options -Indexes
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
-    Header set Permissions-Policy "geolocation=(), camera=(), microphone=()"
-    # HSTS: SSL aktifse etkinleştir (1 yıl)
-    # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
 # ────────────────────────────────────────────────────────────────
-# Hassas ve geçici dosyaları gizle
+# Hassas dosyaları gizle (Apache 2.2 ve 2.4 uyumlu)
 # ────────────────────────────────────────────────────────────────
-<FilesMatch "(^\.env|\.sql$|composer\.(json|lock)$|package(-lock)?\.json$|\.txt$|\.ps1$|^tmp_test_|^fix_|debug_)">
-    Require all denied
-</FilesMatch>
+<Files ".env">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</Files>
+
+<Files "*.sql">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</Files>
 
 # ────────────────────────────────────────────────────────────────
 # Statik asset cache (30 gün)
