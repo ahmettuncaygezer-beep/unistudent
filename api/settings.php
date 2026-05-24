@@ -36,7 +36,7 @@ csrf_require();
 // JSON body destek
 $raw = file_get_contents('php://input');
 $body = [];
-if ($raw && str_starts_with(trim($raw), '{')) {
+if ($raw && strncmp(trim($raw), '{', 1) === 0) {
     $body = json_decode($raw, true) ?: [];
 }
 $get = fn($k, $def = null) => $_POST[$k] ?? $body[$k] ?? $def;

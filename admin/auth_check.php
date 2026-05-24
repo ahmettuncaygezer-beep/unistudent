@@ -14,10 +14,10 @@ function check_login(): void {
         unset($_SESSION['logged_in'], $_SESSION['admin_login_time']);
 
         // JSON API isteği ise 401 döndür
-        $isApi = (str_contains($_SERVER['REQUEST_URI'] ?? '', '/api/')
-               || str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/api/'));
-        $wantsJson = str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json')
-                  || str_contains($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '', 'XMLHttpRequest');
+        $isApi = (strpos($_SERVER['REQUEST_URI'] ?? '', '/api/') !== false
+               || strpos($_SERVER['REQUEST_URI'] ?? '', '/admin/api/') !== false);
+        $wantsJson = strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false
+                  || strpos($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '', 'XMLHttpRequest') !== false;
 
         if ($isApi || $wantsJson) {
             http_response_code(401);

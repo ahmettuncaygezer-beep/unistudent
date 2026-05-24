@@ -103,7 +103,7 @@ class BlogManager
             ? $data['status'] : 'published';
 
         // Cleanup filename
-        if (!str_ends_with($filename, '.html')) {
+        if (substr($filename, -5) !== '.html') {
             $filename .= '.html';
         }
         $slug = basename($filename);
@@ -160,7 +160,7 @@ class BlogManager
         if ($coverImage) {
             // Blog HTML files live in /blog/ subdirectory, so prepend ../ for root-relative paths
             $coverSrc = $coverImage;
-            if (!str_starts_with($coverSrc, '../') && !str_starts_with($coverSrc, 'http')) {
+            if (strncmp($coverSrc, '../', 3) !== 0 && strncmp($coverSrc, 'http', 4) !== 0) {
                 $coverSrc = '../' . $coverSrc;
             }
             $coverHtml = '<img src="' . htmlspecialchars($coverSrc) . '" class="blog-cover-image" alt="' . htmlspecialchars($title) . '" style="width:100%; border-radius:1rem; margin-bottom:2rem; object-fit: cover; max-height: 500px;">';
