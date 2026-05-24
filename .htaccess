@@ -7,10 +7,10 @@ Options -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # HTTP → HTTPS yönlendir (X-Forwarded-Proto de dahil — cPanel/proxy için)
-    RewriteCond %{HTTPS} off
-    RewriteCond %{HTTP:X-Forwarded-Proto} !https
-    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# HTTPS Zorlaması — SSL sertifikası kurulduktan sonra aktif et:
+# RewriteCond %{HTTPS} off
+# RewriteCond %{HTTP:X-Forwarded-Proto} !https
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     # /sitemap.xml -> sitemap.php
     RewriteRule ^sitemap\.xml$ sitemap.php [L]
