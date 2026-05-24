@@ -6,6 +6,8 @@
 require_once __DIR__ . '/../includes/db.php';
 
 header('Content-Type: application/javascript; charset=utf-8');
+header('Cache-Control: public, max-age=3600');
+header('Vary: Accept-Encoding');
 
 try {
     $db = getDB();
@@ -40,6 +42,5 @@ try {
     
 } catch (Exception $e) {
     // Fallback: Boş obje döndür
-    echo "console.error('Veri yüklenirken hata oluştu', " . json_encode($e->getMessage()) . ");\n";
-    echo "const CITY_DATA = {};\n";
+    echo "const CITY_DATA = {};\n// City data unavailable\n";
 }

@@ -722,7 +722,13 @@ const TICKER_MAP = {
     crypto: ['BTC', 'ETH', 'SOL', 'AVAX', 'BNB', 'ADA', 'DOT', 'XRP', 'DOGE', 'LINK', 'MATIC', 'UNI', 'ATOM', 'APT', 'ARB'],
     forex: ['USD', 'EUR', 'GBP', 'CHF', 'JPY'],
     gold: ['ALTIN'],
-    fund: []
+    fund: [
+        'YABF', 'AKPDA', 'YAPBS', 'GZDEM', 'GZPHY',
+        'AKPBG', 'YAPBG', 'YPKBG', 'INFHG', 'FONSB',
+        'TBAF', 'TBAD', 'TBAG', 'INGPB', 'INGPG',
+        'GDZYF', 'KBSAT', 'KBSHB', 'ZBAF1', 'ISCAG',
+        'ISDAB', 'ISCSB', 'ISCBF', 'QNBFL', 'DENAB'
+    ]
 };
 
 function populateTickerSelect(assetTypeSelectId, tickerSelectId) {

@@ -139,6 +139,7 @@ function obNext(step) {
 async function obFinish() {
     const fd = new FormData();
     fd.append('action', 'complete_onboarding');
+    fd.append('csrf_token', window.CSRF_TOKEN || '');
     fd.append('city', document.getElementById('obCitySelect')?.value || '');
     fd.append('income', document.getElementById('obIncomeInput')?.value || '0');
     fd.append('savings_goal', document.getElementById('obSavingsInput')?.value || '0');

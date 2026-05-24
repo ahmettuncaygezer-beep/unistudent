@@ -26,7 +26,7 @@ foreach ($users as $user) {
                 <strong>Yapay Zeka Tavsiyesi:</strong> Eğlence kaleminden kıstığın 150 TL'yi kripto veya birikim cüzdanına aktarabilirsin. 
             </div>
             
-            <a href='http://localhost/unistudent/user_dashboard.php' style='display:inline-block; margin-top:30px; padding:12px 24px; background:#7000FF; color:#fff; text-decoration:none; border-radius:4px;'>Terminali Aç</a>
+            <a href='<?php echo rtrim(defined('SITE_URL') ? SITE_URL : 'https://unibutce.com', '/'); ?>/user_dashboard.php' style='display:inline-block; margin-top:30px; padding:12px 24px; background:#7000FF; color:#fff; text-decoration:none; border-radius:4px;'>Terminali Aç</a>
         </div>
         <div style='padding:15px; text-align:center; font-size:12px; color:#666; border-top:1px solid #222;'>
             Bu e-pota ÜniBütçe Cron System (v5.0) tarafından otomatik oluşturulmuştur.

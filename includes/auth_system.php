@@ -139,12 +139,12 @@ class AuthSystem
         $user = $stmt->fetch();
 
         if ($user) {
-            // User exists, log them in
-
-            // Should update provider_id if it was matched by email only (linking accounts)
+            // Mevcut kullanıcı — provider kontrolü
             if ($user['auth_provider'] === 'local') {
-            // Optional: You might want to merge or ask user to link. 
-            // For simplicity, we just log them in if email matches.
+                // Yerel hesap var ama OAuth ile giriş deniyor.
+                // Hesap birleştirme onaysız otomatik yapılmaz — güvenlik riski.
+                error_log("OAuth login blocked: local account exists for email $email");
+                return false; // Kullanıcı şifresiyle giriş yapmalıdır
             }
 
             $this->setSession($user['id'], $user['full_name'], $user['role'], $user['university_name']);
@@ -173,22 +173,25 @@ class AuthSystem
         }
     }
 
-    private function generateUniqueUsername($base)
+    private function generateUniqueUsername($base): string
     {
-        // Simple logic to ensure username uniqueness
         $username = preg_replace('/[^a-zA-Z0-9_]/', '', $base);
+        if ($username === '') $username = 'user';
         $original = $username;
         $counter = 1;
+        $maxAttempts = 100; // Sonsuz döngü koruması
 
-        while (true) {
+        while ($counter <= $maxAttempts) {
             $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = ?");
             $stmt->execute([$username]);
             if (!$stmt->fetch()) {
                 return $username;
             }
-            $username = $original . $counter;
+            $username = $original . '_' . $counter;
             $counter++;
         }
+        // Son çare: timestamp suffixli benzersiz kullanıcı adı
+        return $original . '_' . substr(uniqid(), -6);
     }
 
     public function logout()
@@ -198,8 +201,13 @@ class AuthSystem
         return ['success' => true, 'message' => 'Çıkış yapıldı.'];
     }
 
-    private function setSession($id, $name, $role, $university)
+    private function setSession($id, $name, $role, $university): void
     {
+        // Session fixation salgısını önle — yeni ID ata
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_regenerate_id(true);
+        }
+
         $_SESSION['user_id'] = $id;
         $_SESSION['user_name'] = $name;
         $_SESSION['user_role'] = $role;

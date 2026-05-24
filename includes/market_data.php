@@ -168,8 +168,8 @@ class MarketData {
                 CURLOPT_TIMEOUT        => 10,
                 CURLOPT_CONNECTTIMEOUT => 5,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => (getenv('APP_ENV') !== 'local'),
+                CURLOPT_SSL_VERIFYHOST => (getenv('APP_ENV') !== 'local') ? 2 : 0,
                 CURLOPT_HTTPHEADER     => [
                     'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                     'Accept: application/json',
@@ -344,8 +344,8 @@ class MarketData {
                 'ignore_errors' => true,
             ],
             'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
+                'verify_peer'      => (getenv('APP_ENV') !== 'local'),
+                'verify_peer_name' => (getenv('APP_ENV') !== 'local'),
             ],
         ]);
 
@@ -403,19 +403,35 @@ class MarketData {
     }
 
     private function getBISTFallback(): array {
+        // Mayıs 2025 yaklaşık fiyatlar (Yahoo Finance erişilemediğinde kullanılır)
         return [
-            'THYAO' => ['price' => 318.40, 'change_pct' => 0, 'prev_close' => 318.40, 'source' => 'fallback', 'type' => 'bist'],
-            'SISE'  => ['price' => 52.90, 'change_pct' => 0, 'prev_close' => 52.90, 'source' => 'fallback', 'type' => 'bist'],
-            'ASELS' => ['price' => 58.75, 'change_pct' => 0, 'prev_close' => 58.75, 'source' => 'fallback', 'type' => 'bist'],
-            'GARAN' => ['price' => 122.80, 'change_pct' => 0, 'prev_close' => 122.80, 'source' => 'fallback', 'type' => 'bist'],
-            'AKBNK' => ['price' => 56.90, 'change_pct' => 0, 'prev_close' => 56.90, 'source' => 'fallback', 'type' => 'bist'],
-            'EREGL' => ['price' => 49.22, 'change_pct' => 0, 'prev_close' => 49.22, 'source' => 'fallback', 'type' => 'bist'],
-            'TUPRS' => ['price' => 152.30, 'change_pct' => 0, 'prev_close' => 152.30, 'source' => 'fallback', 'type' => 'bist'],
-            'FROTO' => ['price' => 1024.00, 'change_pct' => 0, 'prev_close' => 1024.00, 'source' => 'fallback', 'type' => 'bist'],
-            'KOZAL' => ['price' => 110.70, 'change_pct' => 0, 'prev_close' => 110.70, 'source' => 'fallback', 'type' => 'bist'],
-            'KCHOL' => ['price' => 181.20, 'change_pct' => 0, 'prev_close' => 181.20, 'source' => 'fallback', 'type' => 'bist'],
+            'THYAO' => ['price' => 285.50, 'change_pct' => 0, 'prev_close' => 285.50, 'source' => 'fallback', 'type' => 'bist'],
+            'SISE'  => ['price' => 48.20,  'change_pct' => 0, 'prev_close' => 48.20,  'source' => 'fallback', 'type' => 'bist'],
+            'ASELS' => ['price' => 62.40,  'change_pct' => 0, 'prev_close' => 62.40,  'source' => 'fallback', 'type' => 'bist'],
+            'GARAN' => ['price' => 130.80, 'change_pct' => 0, 'prev_close' => 130.80, 'source' => 'fallback', 'type' => 'bist'],
+            'AKBNK' => ['price' => 63.50,  'change_pct' => 0, 'prev_close' => 63.50,  'source' => 'fallback', 'type' => 'bist'],
+            'EREGL' => ['price' => 46.80,  'change_pct' => 0, 'prev_close' => 46.80,  'source' => 'fallback', 'type' => 'bist'],
+            'TUPRS' => ['price' => 165.80, 'change_pct' => 0, 'prev_close' => 165.80, 'source' => 'fallback', 'type' => 'bist'],
+            'BIMAS' => ['price' => 480.25, 'change_pct' => 0, 'prev_close' => 480.25, 'source' => 'fallback', 'type' => 'bist'],
+            'FROTO' => ['price' => 1142.50,'change_pct' => 0, 'prev_close' => 1142.50,'source' => 'fallback', 'type' => 'bist'],
+            'KOZAL' => ['price' => 115.40, 'change_pct' => 0, 'prev_close' => 115.40, 'source' => 'fallback', 'type' => 'bist'],
+            'KCHOL' => ['price' => 195.80, 'change_pct' => 0, 'prev_close' => 195.80, 'source' => 'fallback', 'type' => 'bist'],
+            'TCELL' => ['price' => 88.55,  'change_pct' => 0, 'prev_close' => 88.55,  'source' => 'fallback', 'type' => 'bist'],
+            'YKBNK' => ['price' => 42.10,  'change_pct' => 0, 'prev_close' => 42.10,  'source' => 'fallback', 'type' => 'bist'],
+            'SAHOL' => ['price' => 124.20, 'change_pct' => 0, 'prev_close' => 124.20, 'source' => 'fallback', 'type' => 'bist'],
+            'TOASO' => ['price' => 295.40, 'change_pct' => 0, 'prev_close' => 295.40, 'source' => 'fallback', 'type' => 'bist'],
+            'PETKM' => ['price' => 18.42,  'change_pct' => 0, 'prev_close' => 18.42,  'source' => 'fallback', 'type' => 'bist'],
+            'VESTL' => ['price' => 42.80,  'change_pct' => 0, 'prev_close' => 42.80,  'source' => 'fallback', 'type' => 'bist'],
+            'TAVHL' => ['price' => 195.00, 'change_pct' => 0, 'prev_close' => 195.00, 'source' => 'fallback', 'type' => 'bist'],
+            'MGROS' => ['price' => 385.00, 'change_pct' => 0, 'prev_close' => 385.00, 'source' => 'fallback', 'type' => 'bist'],
+            'ENKAI' => ['price' => 53.55,  'change_pct' => 0, 'prev_close' => 53.55,  'source' => 'fallback', 'type' => 'bist'],
+            'SASA'  => ['price' => 29.15,  'change_pct' => 0, 'prev_close' => 29.15,  'source' => 'fallback', 'type' => 'bist'],
+            'EKGYO' => ['price' => 16.80,  'change_pct' => 0, 'prev_close' => 16.80,  'source' => 'fallback', 'type' => 'bist'],
+            'HEKTS' => ['price' => 58.20,  'change_pct' => 0, 'prev_close' => 58.20,  'source' => 'fallback', 'type' => 'bist'],
+            'TTKOM' => ['price' => 22.10,  'change_pct' => 0, 'prev_close' => 22.10,  'source' => 'fallback', 'type' => 'bist'],
         ];
     }
+
 
     private function getForexFallback(): array {
         return [

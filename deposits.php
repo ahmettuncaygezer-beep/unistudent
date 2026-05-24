@@ -39,6 +39,9 @@ const api = (u, opts = {}) => fetch(u, {
     headers: { 'X-CSRF-Token': window.CSRF_TOKEN || '', ...(opts.headers || {}) }, ...opts
 }).then(r => r.json());
 
+// HTML escape helper — XSS önlüyor
+const esc = s => s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;') : '';
+
 const STATUS = {
     active:   { label:'Aktif',      color:'#7d5cff' },
     returned: { label:'İade Alındı', color:'#39ff14' },
@@ -64,19 +67,19 @@ async function load() {
         return `<div class="ub-card" style="border-left:4px solid ${st.color};">
             <div style="display:flex; justify-content:space-between; align-items:start; gap:12px; flex-wrap:wrap;">
                 <div style="flex:1;">
-                    <h3 style="margin:0;">${d.landlord_name || 'Ev sahibi'} · ${parseFloat(d.amount).toLocaleString('tr-TR')}₺</h3>
-                    <div style="opacity:.75; font-size:.9rem; margin-top:4px;">${d.address || ''}</div>
+                    <h3 style="margin:0;">${esc(d.landlord_name) || 'Ev sahibi'} · ${parseFloat(d.amount).toLocaleString('tr-TR')}₺</h3>
+                    <div style="opacity:.75; font-size:.9rem; margin-top:4px;">${esc(d.address)}</div>
                     <div style="opacity:.65; font-size:.85rem; margin-top:6px;">
                         Ödeme: ${d.paid_date ? new Date(d.paid_date).toLocaleDateString('tr-TR') : '-'} ·
                         İade beklentisi: ${d.expected_return_date ? new Date(d.expected_return_date).toLocaleDateString('tr-TR') : '-'}
                         ${urgent ? `<span class="ub-pill ub-pill-progress">⚠️ ${d.days_until_return} gün kaldı</span>` : ''}
                     </div>
-                    ${d.notes ? `<div style="opacity:.8; font-size:.85rem; margin-top:6px;">${d.notes}</div>` : ''}
+                    ${d.notes ? `<div style="opacity:.8; font-size:.85rem; margin-top:6px;">${esc(d.notes)}</div>` : ''}
                     <div style="margin-top:10px;"><span style="color:${st.color}; font-weight:700;">${st.label}</span> ${d.status==='partial'||d.status==='returned' ? ` · ${parseFloat(d.returned_amount).toLocaleString('tr-TR')}₺ iade` : ''}</div>
                 </div>
                 <div style="display:flex; flex-direction:column; gap:6px;">
                     ${d.status==='active' ? `
-                        <button onclick="markReturned(${d.id}, ${d.amount})" style="padding:6px 12px; border-radius:6px; background:rgba(57,255,20,.15); color:#39ff14; border:1px solid rgba(57,255,20,.3); cursor:pointer; font-size:.85rem;">✓ İade Alındı</button>
+                        <button onclick="markReturned(${d.id}, ${d.amount})" style="padding:6px 12px; border-radius:6px; background:rgba(57,255,20,.15); color:#39ff14; border:1px solid rgba(57,255,20,.3); cursor:pointer; font-size:.85rem;">&#10003; İade Alındı</button>
                         <button onclick="markPartial(${d.id})" style="padding:6px 12px; border-radius:6px; background:rgba(255,145,0,.15); color:#ff9100; border:1px solid rgba(255,145,0,.3); cursor:pointer; font-size:.85rem;">Kısmi</button>
                         <button onclick="markLost(${d.id})" style="padding:6px 12px; border-radius:6px; background:rgba(255,59,48,.15); color:#ff3b30; border:1px solid rgba(255,59,48,.3); cursor:pointer; font-size:.85rem;">Kaybedildi</button>
                     ` : ''}

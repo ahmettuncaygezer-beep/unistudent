@@ -6,7 +6,7 @@ declare(strict_types=1);
  */
 function rate_limit(string $bucket, int $limit, int $windowSec): void
 {
-    $ip  = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $ip  = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown')[0]);
     $ip  = preg_replace('/[^a-zA-Z0-9._:-]/', '', $ip) ?? 'unknown';
     $uid = $_SESSION['user_id'] ?? 'guest';
 

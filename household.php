@@ -118,6 +118,73 @@ $user_id = $_SESSION['user_id'];
     </div>
 
 <script>
+// ══ CYBER COACH WIDGET FONKSIYONLARI ══
+let coachOpen = false;
+let coachRemaining = 30;
+
+function toggleCoach() {
+    coachOpen = !coachOpen;
+    const panel = document.getElementById('coachPanel');
+    const btn = document.getElementById('cyberCoachWidget');
+    if (panel) panel.classList.toggle('coach-open', coachOpen);
+    if (btn) btn.classList.toggle('coach-active', coachOpen);
+}
+
+async function sendCoachMessage() {
+    const input = document.getElementById('coachInput');
+    if (!input) return;
+    const msg = input.value.trim();
+    if (!msg) return;
+    if (coachRemaining <= 0) {
+        appendCoachMsg('bot', '⏳ Mesaj limitine ulaştın. Biraz bekle.');
+        return;
+    }
+    appendCoachMsg('user', msg);
+    input.value = '';
+    const btn = document.getElementById('coachSendBtn');
+    if (btn) btn.disabled = true;
+    appendCoachMsg('bot', '<span class="coach-typing">●●●</span>', 'typing-indicator');
+    try {
+        const res = await fetch('api/cyber_coach.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        });
+        const data = await res.json();
+        const typing = document.getElementById('typing-indicator');
+        if (typing) typing.remove();
+        appendCoachMsg('bot', data.reply || '🔌 Yanıt alınamadı.');
+        if (data.remaining !== undefined) {
+            coachRemaining = data.remaining;
+            const counter = document.getElementById('coachCounter');
+            if (counter) counter.textContent = coachRemaining + '/30';
+        }
+    } catch (e) {
+        const typing = document.getElementById('typing-indicator');
+        if (typing) typing.remove();
+        appendCoachMsg('bot', '🔌 Bağlantı hatası. Lütfen tekrar dene.');
+    }
+    if (btn) btn.disabled = false;
+}
+
+function appendCoachMsg(role, text, id) {
+    const msgs = document.getElementById('coachMessages');
+    if (!msgs) return;
+    const div = document.createElement('div');
+    div.className = 'coach-msg ' + role;
+    if (id) div.id = id;
+    div.innerHTML = '<div class="msg-bubble">' + text + '</div>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendQuickAsk(question) {
+    const input = document.getElementById('coachInput');
+    if (input) input.value = question;
+    if (!coachOpen) toggleCoach();
+    sendCoachMessage();
+}
+// ═══════════════════════════════════════
 const api = (u, opts = {}) => fetch(u, {
     credentials: 'same-origin',
     headers: { 'X-CSRF-Token': window.CSRF_TOKEN || '', ...(opts.headers || {}) },

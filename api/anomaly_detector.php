@@ -25,8 +25,17 @@ if ($method === 'GET') {
          ORDER BY created_at DESC LIMIT 20"
     );
     $stmt->execute([$user_id]);
-    json_response(['success' => true, 'anomalies' => $stmt->fetchAll()]);
+    $anomalies = $stmt->fetchAll();
+
+    // Auto-scan: son taramadan 1 saat geçtiyse otomatik tara
+    $lastScan = $pdo->prepare("SELECT MAX(created_at) FROM user_anomalies WHERE user_id = ?");
+    $lastScan->execute([$user_id]);
+    $lastScanTime = $lastScan->fetchColumn();
+    $shouldScan = !$lastScanTime || (time() - strtotime($lastScanTime)) > 3600;
+
+    json_response(['success' => true, 'anomalies' => $anomalies, 'auto_scan_pending' => $shouldScan]);
 }
+
 
 if ($method === 'POST') {
     rate_limit('anomaly_scan', 12, 3600); // saatte 12 tarama

@@ -82,7 +82,6 @@ $activePage = basename($_SERVER['PHP_SELF']);
                 </div>
             </div>
 
-            <!-- Panel (Dashboard) -->
             <div class="pub-mega-item">
                 <button class="pub-mega-trigger" data-pmenu="panel">
                     <span>Panel</span>
@@ -90,52 +89,69 @@ $activePage = basename($_SERVER['PHP_SELF']);
                 </button>
                 <div class="pub-mega-panel" id="pmenu-panel">
                     <div class="pub-mega-panel-inner">
+                        <?php if (!$loggedIn): ?>
+                        <!-- Giriş yap uyarı bandı -->
+                        <div style="background:rgba(0,240,255,0.06); border:1px solid rgba(0,240,255,0.15); border-radius:10px; padding:10px 14px; margin-bottom:14px; display:flex; align-items:center; gap:10px; font-size:.8rem; color:rgba(255,255,255,.7);">
+                            <i class="fa-solid fa-lock" style="color:#00f0ff; font-size:.9rem;"></i>
+                            <span>Panele erişmek için <b style="color:#00f0ff; cursor:pointer;" onclick="window.openAuthModal&&window.openAuthModal()">giriş yap</b> veya <b style="color:#39ff14; cursor:pointer;" onclick="window.openAuthModal&&window.openAuthModal('register')">kayıt ol.</b></span>
+                        </div>
+                        <?php endif; ?>
                         <div class="pub-mega-section-label"><i class="fa-solid fa-wallet"></i> Finans Yönetimi</div>
                         <div class="pub-mega-grid">
-                            <a href="<?= $navPrefix ?>user_dashboard.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>user_dashboard.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-grid-2"></i>
-                                <div><span class="pml-title">Genel Bakış</span><span class="pml-desc">Dashboard & özet</span></div>
+                                <div><span class="pml-title">Genel Bakış</span><span class="pml-desc">Dashboard &amp; özet</span></div>
                             </a>
-                            <a href="<?= $navPrefix ?>transactions.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>transactions.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-arrows-left-right-to-line"></i>
-                                <div><span class="pml-title">Harcamalarım</span><span class="pml-desc">Gelir & gider kayıtları</span></div>
+                                <div><span class="pml-title">Harcamalarım</span><span class="pml-desc">Gelir &amp; gider kayıtları</span></div>
                             </a>
-                            <a href="<?= $navPrefix ?>budgets.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>budgets.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-chart-pie"></i>
                                 <div><span class="pml-title">Bütçem</span><span class="pml-desc">Aylık bütçe planı</span></div>
                             </a>
-                            <a href="<?= $navPrefix ?>goals.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>goals.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-bullseye"></i>
                                 <div><span class="pml-title">Hedeflerim</span><span class="pml-desc">Birikim hedefleri</span></div>
                             </a>
-                            <a href="<?= $navPrefix ?>reports.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>reports.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-chart-line"></i>
                                 <div><span class="pml-title">Raporlar</span><span class="pml-desc">Detaylı analiz</span></div>
                             </a>
-                            <a href="<?= $navPrefix ?>investments.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>investments.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-coins"></i>
                                 <div><span class="pml-title">Yatırımlar</span><span class="pml-desc">Portföy yönetimi</span></div>
                             </a>
                         </div>
                         <div class="pub-mega-section-label" style="margin-top:12px;"><i class="fa-solid fa-house"></i> Öğrenci Yaşamı</div>
                         <div class="pub-mega-grid">
-                            <a href="<?= $navPrefix ?>household.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>household.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-people-roof"></i>
                                 <div><span class="pml-title">Ev Bütçesi</span><span class="pml-desc">Ortak harcamalar</span></div>
                             </a>
-                            <a href="<?= $navPrefix ?>scholarships.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>scholarships.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-medal"></i>
                                 <div><span class="pml-title">Burslarım</span><span class="pml-desc">Burs başvuru takibi</span></div>
                             </a>
-                            <a href="<?= $navPrefix ?>kyk.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>kyk.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-calendar-check"></i>
                                 <div><span class="pml-title">KYK Takvimi</span><span class="pml-desc">Önemli tarihler</span></div>
                             </a>
-                            <a href="<?= $navPrefix ?>discounts.php" class="pub-mega-link">
+                            <a href="<?= $navPrefix ?>discounts.php" class="pub-mega-link<?= !$loggedIn ? ' pub-auth-required' : '' ?>">
                                 <i class="fa-solid fa-ticket"></i>
-                                <div><span class="pml-title">Öğrenci İndirimleri</span><span class="pml-desc">Kampanya & fırsatlar</span></div>
+                                <div><span class="pml-title">Öğrenci İndirimleri</span><span class="pml-desc">Kampanya &amp; fırsatlar</span></div>
                             </a>
                         </div>
+                        <?php if (!$loggedIn): ?>
+                        <div style="margin-top:14px; display:flex; gap:8px;">
+                            <button onclick="window.openAuthModal&&window.openAuthModal()" style="flex:1; padding:9px; border-radius:10px; background:rgba(0,240,255,0.12); border:1px solid rgba(0,240,255,0.35); color:#00f0ff; font-weight:700; font-size:.82rem; cursor:pointer; font-family:inherit; transition:all .2s;">
+                                <i class="fa-solid fa-sign-in-alt"></i> Giriş Yap
+                            </button>
+                            <button onclick="window.openAuthModal&&window.openAuthModal('register')" style="flex:1; padding:9px; border-radius:10px; background:rgba(57,255,20,0.12); border:1px solid rgba(57,255,20,0.35); color:#39ff14; font-weight:700; font-size:.82rem; cursor:pointer; font-family:inherit; transition:all .2s;">
+                                <i class="fa-solid fa-user-plus"></i> Kayıt Ol
+                            </button>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -537,4 +553,38 @@ pubNavOverlay?.addEventListener('click', () => {
 window.addEventListener('scroll', () => {
     document.getElementById('pubNavbar')?.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
+
+// ── Auth-required link interceptor ──
+// Giriş yapılmamışsa Panel linklerine tıklandığında modal aç
+(function() {
+    function interceptAuthLinks() {
+        document.querySelectorAll('a.pub-auth-required').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                // Menüyü kapat
+                document.querySelectorAll('.pub-mega-panel.open').forEach(p => p.classList.remove('open'));
+                document.querySelectorAll('.pub-mega-trigger.active').forEach(t => t.classList.remove('active'));
+                // Mobile menüyü kapat
+                document.getElementById('pubNavMenu')?.classList.remove('mob-open');
+                document.getElementById('pubHamburger')?.classList.remove('active');
+                document.getElementById('pubNavOverlay')?.classList.remove('active');
+                document.body.style.overflow = '';
+                // Auth modal aç
+                if (typeof window.openAuthModal === 'function') {
+                    window.openAuthModal();
+                } else {
+                    // index.php'deki modal hazır değilse anchor ile git
+                    window.location.href = (window.navPrefix || '') + 'index.php#auth';
+                }
+            });
+        });
+    }
+    // DOM hazır olunca bağla
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', interceptAuthLinks);
+    } else {
+        interceptAuthLinks();
+    }
+})();
 </script>

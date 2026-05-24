@@ -15,7 +15,7 @@ $__csrf   = csrf_token();
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="assets/icon-192x192.png">
     <meta name="keywords" content="üniversite, bütçe, öğrenci, yaşam maliyeti, kyk, burs, yapay zeka">
-    <link rel="canonical" href="<?= htmlspecialchars($__appUrl . '/index.php', ENT_QUOTES) ?>">
+    <link rel="canonical" href="<?= htmlspecialchars(rtrim($__appUrl, '/'), ENT_QUOTES) ?>">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -61,7 +61,7 @@ $__csrf   = csrf_token();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Condiment&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="style.css?v=<?php echo filemtime(__DIR__.'/style.css'); ?>">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/ui-helpers.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="css/orbis-theme.css?v=<?php echo time(); ?>">
@@ -721,12 +721,7 @@ $__csrf   = csrf_token();
                         Üniversite öğrencilerinin finansal farkındalığını artırmak ve bütçe yönetimini kolaylaştırmak
                         için tasarlanmış yapay zeka destekli platform.
                     </p>
-                    <div class="footer-social">
-                        <a href="#" class="footer-social-link" aria-label="Twitter">𝕏</a>
-                        <a href="#" class="footer-social-link" aria-label="Instagram">📸</a>
-                        <a href="#" class="footer-social-link" aria-label="LinkedIn">💼</a>
-                        <a href="#" class="footer-social-link" aria-label="GitHub">⌨️</a>
-                    </div>
+
                 </div>
                 <div>
                     <div class="footer-heading">Hızlı Erişim</div>

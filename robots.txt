@@ -1,9 +1,12 @@
 User-agent: *
 Allow: /
+
 Disallow: /admin/
 Disallow: /api/
 Disallow: /includes/
 Disallow: /cron/
 Disallow: /migrations/
+Disallow: /data/
+Disallow: /assets/images/blog/
 
-Sitemap: /sitemap.xml
+Sitemap: https://unibutce.com/sitemap.xml

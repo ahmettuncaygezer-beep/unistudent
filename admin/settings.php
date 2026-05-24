@@ -53,8 +53,8 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['_section']) && $_POST['_
     $new2 = $_POST['new_password2'] ?? '';
     if(!password_verify($cur, ADMIN_PASSWORD_HASH)){
         $pwMsg = 'Mevcut şifre hatalı.'; $pwError = true;
-    } elseif(strlen($new) < 6){
-        $pwMsg = 'Yeni şifre en az 6 karakter olmalı.'; $pwError = true;
+    } elseif(strlen($new) < 12){
+        $pwMsg = 'Yeni şifre en az 12 karakter olmalı.'; $pwError = true;
     } elseif($new !== $new2){
         $pwMsg = 'Yeni şifreler eşleşmiyor.'; $pwError = true;
     } else {

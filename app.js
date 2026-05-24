@@ -1322,3 +1322,77 @@ window.shareCurrentExpenses = function() {
         }, 4000);
     });
 };
+
+// ══════════════════════════════
+// OAUTH COMING SOON MODAL
+// ══════════════════════════════
+function showOAuthComingSoon(provider) {
+    // Remove existing modal if any
+    const existing = document.getElementById('oauthComingSoonModal');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'oauthComingSoonModal';
+    modal.style.cssText = `
+        position: fixed; inset: 0; z-index: 99999;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+        animation: fadeIn 0.2s ease;
+    `;
+    modal.innerHTML = `
+        <div style="
+            background: linear-gradient(135deg, rgba(12,26,51,0.98), rgba(6,17,33,0.98));
+            border: 1px solid rgba(0,136,255,0.3);
+            border-radius: 20px;
+            padding: 40px 48px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,136,255,0.08);
+            animation: slideUp 0.3s ease;
+        ">
+            <div style="font-size: 3.5rem; margin-bottom: 16px;">🚀</div>
+            <h2 style="margin: 0 0 12px; font-size: 1.4rem; color: #fff;">${provider} ile Giriş</h2>
+            <div style="
+                display: inline-flex; align-items: center; gap: 6px;
+                padding: 5px 14px; border-radius: 999px;
+                background: linear-gradient(135deg, rgba(125,92,255,0.2), rgba(0,136,255,0.2));
+                border: 1px solid rgba(125,92,255,0.4);
+                font-size: 0.8rem; font-weight: 700; color: #a78bfa;
+                text-transform: uppercase; letter-spacing: 1px;
+                margin-bottom: 20px;
+            ">⚡ Yakında Geliyor</div>
+            <p style="color: rgba(255,255,255,0.65); line-height: 1.7; margin: 0 0 28px; font-size: 0.95rem;">
+                ${provider} OAuth entegrasyonu geliştirme aşamasında.
+                Şu an e-posta ve şifrenizle kayıt olup giriş yapabilirsiniz.
+            </p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button onclick="document.getElementById('oauthComingSoonModal').remove()"
+                    style="
+                        padding: 12px 28px; border-radius: 10px;
+                        background: linear-gradient(135deg, #0088ff, #00c8ff);
+                        color: #fff; border: none; cursor: pointer;
+                        font-weight: 600; font-size: 0.95rem;
+                        transition: all 0.2s;
+                    "
+                    onmouseover="this.style.transform='translateY(-2px)'"
+                    onmouseout="this.style.transform=''"
+                >E-posta ile Devam Et</button>
+                <button onclick="document.getElementById('oauthComingSoonModal').remove()"
+                    style="
+                        padding: 12px 20px; border-radius: 10px;
+                        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+                        color: rgba(255,255,255,0.6); cursor: pointer;
+                        font-size: 0.9rem; transition: all 0.2s;
+                    "
+                    onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.05)'"
+                >Kapat</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+}

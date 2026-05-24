@@ -1,28 +1,44 @@
 <?php
+declare(strict_types=1);
+require_once __DIR__ . '/cors.php';
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/auth_system.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['error' => 'Unauthorized']);
-    exit;
+$auth = new AuthSystem($pdo);
+if (!$auth->isLoggedIn()) {
+    json_response(['success' => false, 'error' => 'Unauthorized'], 401);
 }
-$user_id = $_SESSION['user_id'];
-$action = $_GET['action'] ?? $_POST['action'] ?? 'check';
+$user_id = (int)$_SESSION['user_id'];
+
+// CSRF for state-mutating actions only
+$action = $_GET['action'] ?? $_POST['action'] ?? '';
+if ($action === 'check' && $_SERVER['REQUEST_METHOD'] !== 'GET') {
+    csrf_require();
+}
+
+// Default action: list (safe GET)
+if ($action === '' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    $action = 'list';
+}
 
 switch ($action) {
     case 'check':
-        // Check and auto-award achievements
+        // Sadece POST ile tetiklenebilir
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            json_response(['success' => false, 'error' => 'POST gerekli'], 405);
+        }
+        csrf_require();
         $awarded = [];
 
-        // 1. İlk Adım — first transaction
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM transactions WHERE user_id = ?");
         $stmt->execute([$user_id]);
         if ((int)$stmt->fetchColumn() >= 1) {
             $awarded[] = awardAchievement($pdo, $user_id, 'first_step');
         }
 
-        // 2. Abonelik Avcısı — first subscription
         try {
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM subscriptions WHERE user_id = ?");
             $stmt->execute([$user_id]);
@@ -31,14 +47,13 @@ switch ($action) {
             }
         } catch (Exception $e) {}
 
-        // 3. 7 Gün Serisi — 7 distinct days with transactions in last 7 days
         $stmt = $pdo->prepare("SELECT COUNT(DISTINCT DATE(transaction_date)) FROM transactions WHERE user_id = ? AND transaction_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)");
         $stmt->execute([$user_id]);
         if ((int)$stmt->fetchColumn() >= 7) {
             $awarded[] = awardAchievement($pdo, $user_id, 'streak_7');
         }
 
-        echo json_encode(['awarded' => array_filter($awarded)]);
+        json_response(['success' => true, 'awarded' => array_values(array_filter($awarded))]);
         break;
 
     case 'list':
@@ -50,40 +65,36 @@ switch ($action) {
             ORDER BY a.id ASC
         ");
         $stmt->execute([$user_id]);
-        echo json_encode($stmt->fetchAll());
+        json_response($stmt->fetchAll());
         break;
 
     default:
-        echo json_encode(['error' => 'Unknown action']);
+        json_response(['success' => false, 'error' => 'Unknown action'], 400);
 }
 
-function awardAchievement($pdo, $user_id, $slug) {
+function awardAchievement(PDO $pdo, int $user_id, string $slug): ?string {
     try {
-        // Get achievement ID
         $stmt = $pdo->prepare("SELECT id, xp_reward, title FROM achievements WHERE slug = ?");
         $stmt->execute([$slug]);
         $ach = $stmt->fetch();
         if (!$ach) return null;
 
-        // Check if already awarded
         $chk = $pdo->prepare("SELECT id FROM user_achievements WHERE user_id = ? AND achievement_id = ?");
         $chk->execute([$user_id, $ach['id']]);
         if ($chk->fetch()) return null;
 
-        // Award
         $ins = $pdo->prepare("INSERT INTO user_achievements (user_id, achievement_id) VALUES (?, ?)");
         $ins->execute([$user_id, $ach['id']]);
 
-        // Add XP
         $xp = $pdo->prepare("UPDATE users SET xp_points = xp_points + ? WHERE id = ?");
         $xp->execute([$ach['xp_reward'], $user_id]);
 
-        // Create notification
         $notif = $pdo->prepare("INSERT INTO notifications (user_id, type, title, message) VALUES (?, 'success', ?, ?)");
         $notif->execute([$user_id, '🏆 Başarım Kazanıldı: ' . $ach['title'], '+' . $ach['xp_reward'] . ' XP kazandın!']);
 
         return $ach['title'];
     } catch (Exception $e) {
+        error_log('awardAchievement error: ' . $e->getMessage());
         return null;
     }
 }

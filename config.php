@@ -72,7 +72,7 @@ define('ADMIN_MASTER_PIN', env('ADMIN_MASTER_PIN', 'UNI-9999'));
 // ===========================================
 // API ANAHTARLARI
 // ===========================================
-define('FAL_API_KEY', env('FAL_API_KEY', '3cbaf339-e188-4226-9d2a-2d9c978e122c:54f62c8a7e9a2699ab9aca57f7154f64'));
+define('FAL_API_KEY', env('FAL_API_KEY', ''));  // .env dosyasından al
 
 // Gemini API anahtarını admin/api/ai_config.json'dan oku
 function getGeminiApiKey(): string {
@@ -88,7 +88,7 @@ function getGeminiApiKey(): string {
 // SITE AYARLARI
 // ===========================================
 define('SITE_NAME', 'ÜniBütçe');
-define('SITE_URL', 'http://localhost/unistudent');
+define('SITE_URL', env('APP_URL', 'https://unibutce.com'));
 define('BLOG_DIR', __DIR__ . '/blog/');
 
 // ===========================================
@@ -660,6 +660,30 @@ function ensureAllTables(): void {
             ('Apple Education',   'Teknoloji', 'Öğrenci fiyatı',        400.00, 'https://www.apple.com/tr/shop/education-pricing', 'Apple öğrenci mağazası.',                            '🍎'),
             ('THY Miles&Smiles',  'Seyahat',  'Öğrenci tarifesi',      100.00, 'https://www.turkishairlines.com/tr-tr/',    'Student program kaydı.',                                '✈️'),
             ('Bilyoner Cafe',     'Yemek',     'Kampüs öğle menüsü',    120.00, '#',                                         'Kampüs kartı yeterli.',                                 '🍽️')
+        ");
+    }
+
+    // ───────────────────────────────────────────────────
+    // CITIES SEED DATA (ilk kurulumda şehirleri doldur)
+    // ───────────────────────────────────────────────────
+    $checkCities = $db->query("SELECT COUNT(*) FROM cities")->fetchColumn();
+    if ((int)$checkCities === 0) {
+        $db->exec("INSERT INTO cities (slug, name, emoji, description, living_score, rent_single, rent_shared, dorm_private, dorm_kyk, food, transport, entertainment, utilities, tip_1, tip_2) VALUES
+            ('istanbul', 'İstanbul', '🏙️', 'Türkiye\'nin en büyük şehri, iş ve kültür merkezi', 4.2, 25000, 12000, 8000, 1000, 6000, 1800, 3000, 1500, 'İETT öğrenci kartı ile %70 indirim', 'Kadıköy ve Beşiktaş kampüslere yakın, ulaşım kolay'),
+            ('ankara', 'Ankara', '🏛️', 'Başkent, siyaset ve üniversite şehri', 4.0, 18000, 8000, 6000, 1000, 5000, 1200, 2000, 1200, 'EGO öğrenci kartı zorunlu', 'Kızılay merkezi, ulaşım çok iyi'),
+            ('izmir', 'İzmir', '🌊', 'Ege kıyısında yaşam kalitesi yüksek şehir', 4.5, 20000, 9000, 7000, 1000, 5500, 1200, 2500, 1100, 'İZULAŞ öğrenci kartı büyük tasarruf', 'Alsancak ve Bornova kampüslere yakın'),
+            ('bursa', 'Bursa', '🏔️', 'Sanayi şehri, uygun yaşam maliyeti', 3.8, 14000, 6500, 5000, 1000, 4500, 1000, 1500, 1000, 'Bursaray öğrenci kartı ucuz', 'Nilüfer ilçesi öğrencilere çok uygun'),
+            ('antalya', 'Antalya', '🌴', 'Turizm başkenti, yıl boyu güneş', 4.1, 16000, 7500, 6000, 1000, 5000, 1100, 2200, 1000, 'Yazın part-time turizm iş imkânı bol', 'Kampüse yakın mahallelerde kira uygun'),
+            ('eskisehir', 'Eskişehir', '🚋', 'Öğrenci şehri, ucuz ve yaşanabilir', 4.6, 10000, 5000, 4000, 1000, 4000, 800, 1500, 900, 'Tramvay öğrenci kartı çok ucuz', 'En uygun öğrenci şehirlerinden biri'),
+            ('konya', 'Konya', '🌾', 'Orta Anadolu\'da uygun maliyetli şehir', 3.7, 10000, 4500, 4000, 1000, 3800, 700, 1200, 800, 'Yaşam maliyeti Türkiye ortalamasının altında', 'KYK yurtları kaliteli'),
+            ('adana', 'Adana', '🌶️', 'Akdeniz\'in büyük şehri, uygun fiyatlar', 3.6, 11000, 5000, 4500, 1000, 4200, 800, 1300, 900, 'Yazın sıcaklık yüksek, klima masrafını hesapla', 'Öğrenci yoğun mahallelerde kira düşük'),
+            ('trabzon', 'Trabzon', '🌿', 'Karadeniz\'in incisi, huzurlu yaşam', 3.9, 10000, 4500, 3500, 1000, 4000, 700, 1200, 800, 'Doğa aktiviteleri parasız', 'KYK yurtları çok tercih ediliyor'),
+            ('samsun', 'Samsun', '⚓', 'Karadeniz sahil şehri, uygun yaşam', 3.8, 9000, 4000, 3500, 1000, 3800, 700, 1100, 750, 'Deniz manzaralı ucuz kiralar', 'HÜDA öğrenci indirimleri var'),
+            ('gaziantep', 'Gaziantep', '🥙', 'Güneydoğu\'nun sanayi merkezi', 3.7, 9000, 4200, 3500, 1000, 4000, 650, 1100, 750, 'Yemek masrafı çok düşük, kebap ucuz', 'Üniversite yurtları kaliteli'),
+            ('kayseri', 'Kayseri', '🏔️', 'İç Anadolu sanayi şehri', 3.6, 9000, 4000, 3500, 1000, 3700, 650, 1000, 750, 'KYK yurtları dolu, erken başvur', 'Şehir içi ulaşım ucuz'),
+            ('diyarbakir', 'Diyarbakır', '🏺', 'Tarihi surlarıyla eşsiz şehir', 3.5, 8000, 3800, 3000, 1000, 3500, 600, 900, 700, 'Yaşam maliyeti çok düşük', 'KYK yurtları bölgedeki en iyileri'),
+            ('sakarya', 'Sakarya', '🌲', 'Sanayi ve teknoloji şehri', 3.8, 9500, 4200, 3500, 1000, 3900, 700, 1100, 800, 'İstanbul\'a yakınlığı avantaj', 'Adapazarı merkezi uygun fiyatlı'),
+            ('mersin', 'Mersin', '⛵', 'Akdeniz liman şehri', 3.9, 11000, 5000, 4500, 1000, 4200, 800, 1400, 900, 'Deniz kenarında yaşam kalitesi yüksek', 'Toroslar\'a yakın doğa aktiviteleri')
         ");
     }
 

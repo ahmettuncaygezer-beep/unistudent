@@ -80,6 +80,9 @@ const api = (u, opts = {}) => fetch(u, {
     ...opts
 }).then(r => r.json());
 
+// HTML escape helper — XSS önlüyor
+const esc = s => s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;') : '';
+
 const STATUS_COLORS = {
     planned:  { label: 'Planlanan',   color: '#7d5cff' },
     applied:  { label: 'Başvuruldu',  color: '#ff9100' },
@@ -100,13 +103,13 @@ async function load() {
         return `<div class="glass-card" style="padding:16px; margin-bottom:10px;">
             <div style="display:flex; justify-content:space-between; align-items:start; gap:12px; flex-wrap:wrap;">
                 <div style="flex:1;">
-                    <h3 style="margin:0 0 6px;">${s.name}</h3>
+                    <h3 style="margin:0 0 6px;">${esc(s.name)}</h3>
                     <div style="opacity:.7; font-size:.9rem;">
                         ${s.amount > 0 ? `<b>${parseFloat(s.amount).toLocaleString('tr-TR')}₺</b> · ` : ''}
                         ${s.deadline ? 'Son tarih: ' + new Date(s.deadline).toLocaleDateString('tr-TR') : 'Tarihsiz'}
                         · <span style="color:${st.color};">${st.label}</span>
                     </div>
-                    ${s.notes ? `<div style="margin-top:8px; opacity:.8; font-size:.88rem;">${s.notes}</div>` : ''}
+                    ${s.notes ? `<div style="margin-top:8px; opacity:.8; font-size:.88rem;">${esc(s.notes)}</div>` : ''}
                     ${urgent}
                 </div>
                 <button onclick="delSchol(${s.id})" style="background:transparent; border:1px solid rgba(255,59,48,.3); color:#ff3b30; padding:6px 12px; border-radius:8px; cursor:pointer;">Sil</button>

@@ -13,7 +13,7 @@ if (!$auth->isLoggedIn()) {
 // State değiştiren isteklerde CSRF doğrulaması
 csrf_require();
 
-$user_id = $_SESSION['user_id'];
+$user_id = (int)$_SESSION['user_id'];
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 try {
@@ -23,6 +23,7 @@ try {
             $target = floatval($_POST['target_amount'] ?? 0);
             $icon = $_POST['icon'] ?? '🎯';
             $deadline = !empty($_POST['deadline']) ? $_POST['deadline'] : null;
+            if ($deadline && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $deadline)) $deadline = null;
 
             if (empty($title) || $target <= 0) {
                 echo json_encode(['success' => false, 'message' => 'Hedef adı ve tutar zorunludur']);
@@ -72,6 +73,7 @@ try {
 
         case 'delete':
             $goal_id = (int)($_POST['goal_id'] ?? 0);
+            if ($goal_id <= 0) { echo json_encode(['success' => false, 'message' => 'Geçersiz hedef ID.']); exit; }
             $stmt = $pdo->prepare("DELETE FROM user_goals WHERE id = ? AND user_id = ?");
             $stmt->execute([$goal_id, $user_id]);
             echo json_encode(['success' => true]);
@@ -87,5 +89,6 @@ try {
             echo json_encode(['success' => false, 'message' => 'Geçersiz aksiyon']);
     }
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Sunucu hatası: ' . $e->getMessage()]);
+    error_log('goals_handler: ' . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Sunucu hatası.']);
 }

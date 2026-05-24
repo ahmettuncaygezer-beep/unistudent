@@ -27,10 +27,32 @@ if ($method === 'POST') {
     $action = $_POST['action'] ?? 'save';
     if ($action === 'save') {
         $amount = (float)($_POST['monthly_amount'] ?? 0);
-        $start  = $_POST['start_date'] ?? null;
+        $start  = trim($_POST['start_date'] ?? '');
         $study  = (int)($_POST['study_months'] ?? 48);
         $grace  = (int)($_POST['grace_months'] ?? 24);
         $notes  = substr(trim($_POST['notes'] ?? ''), 0, 500);
+
+        // Doğrulama
+        if ($amount < 0 || $amount > 100000) {
+            echo json_encode(['success'=>false,'message'=>'Geçersiz aylık tutar.']); exit;
+        }
+        if ($study < 1 || $study > 120) {
+            echo json_encode(['success'=>false,'message'=>'Öğretim süresi 1-120 ay arasında olmalıdır.']); exit;
+        }
+        if ($grace < 0 || $grace > 48) {
+            echo json_encode(['success'=>false,'message'=>'Geri ödeme muafiyet süresi 0-48 ay arasında olmalıdır.']); exit;
+        }
+        if ($start !== '' && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $start)) {
+            echo json_encode(['success'=>false,'message'=>'Geçersiz tarih formatı (YYYY-MM-DD bekleniyor).']); exit;
+        }
+        // Başlangıç tarihi çok uzak gelecek olamaz (10 yıldan fazla)
+        if ($start !== '') {
+            $startTs = strtotime($start);
+            if ($startTs === false || $startTs > strtotime('+10 years')) {
+                echo json_encode(['success'=>false,'message'=>'Başlangıç tarihi geçersiz.']); exit;
+            }
+        }
+
         $stmt = $pdo->prepare("INSERT INTO user_kyk (user_id, monthly_amount, start_date, study_months, grace_months, notes)
             VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE monthly_amount=VALUES(monthly_amount), start_date=VALUES(start_date),
             study_months=VALUES(study_months), grace_months=VALUES(grace_months), notes=VALUES(notes)");
@@ -39,6 +61,7 @@ if ($method === 'POST') {
     }
     echo json_encode(['success'=>false,'message'=>'Bilinmeyen işlem']); exit;
 }
+
 
 // GET - kullanıcı verisi + hesaplama
 $row = $pdo->prepare("SELECT * FROM user_kyk WHERE user_id = ?");

@@ -10,14 +10,14 @@
             <h2>Hoş Geldiniz</h2>
             
             <div class="social-login-group">
-                <a href="api/oauth_callback.php?provider=google" class="btn-social google">
+                <button type="button" class="btn-social google" onclick="showOAuthComingSoon('Google')">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                     Google ile Giriş Yap
-                </a>
-                <a href="api/oauth_callback.php?provider=facebook" class="btn-social facebook">
+                </button>
+                <button type="button" class="btn-social facebook" onclick="showOAuthComingSoon('Facebook')">
                     <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook">
                     Facebook ile Giriş Yap
-                </a>
+                </button>
             </div>
 
             <div class="divider"><span>veya e-posta ile</span></div>
@@ -38,10 +38,10 @@
             <h2>Hesap Oluştur</h2>
             
              <div class="social-login-group">
-                <a href="api/oauth_callback.php?provider=google" class="btn-social google">
+                <button type="button" class="btn-social google" onclick="showOAuthComingSoon('Google')">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                     Google ile Kayıt Ol
-                </a>
+                </button>
             </div>
 
             <div class="divider"><span>veya form ile</span></div>

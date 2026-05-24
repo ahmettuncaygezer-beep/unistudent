@@ -36,6 +36,9 @@ Thumbs.db
 /debug_*.txt
 /fix_*.ps1
 
+# Runtime cache dosyaları (sunucuda oluşturulur, commit edilmez)
+/data/cache/*.json
+
 # Vercel build
 .vercel
 

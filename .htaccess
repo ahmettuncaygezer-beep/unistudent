@@ -1,21 +1,16 @@
 # ÜniBütçe — Apache yapılandırması
 Options -Indexes
 
-# Güvenlik başlıkları
-<IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
-    Header set X-Frame-Options "SAMEORIGIN"
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
-    Header set Permissions-Policy "geolocation=(), camera=(), microphone=()"
-</IfModule>
-
-# Hassas dosyaları gizle
-<FilesMatch "^\.env|\.sql$|composer\.(json|lock)$|package(-lock)?\.json$">
-    Require all denied
-</FilesMatch>
-
+# ────────────────────────────────────────────────────────────────
+# HTTPS Zorlaması (Hosting SSL sertifikası aktif ise devreye girer)
+# ────────────────────────────────────────────────────────────────
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # HTTP → HTTPS yönlendir (X-Forwarded-Proto de dahil — cPanel/proxy için)
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     # /sitemap.xml -> sitemap.php
     RewriteRule ^sitemap\.xml$ sitemap.php [L]
@@ -27,7 +22,29 @@ Options -Indexes
     RewriteRule ^blog/([^/.]+)$ /unistudent/blog/$1.html [L]
 </IfModule>
 
+# ────────────────────────────────────────────────────────────────
+# Güvenlik başlıkları
+# ────────────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(), camera=(), microphone=()"
+    # HSTS: SSL aktifse etkinleştir (1 yıl)
+    # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ────────────────────────────────────────────────────────────────
+# Hassas ve geçici dosyaları gizle
+# ────────────────────────────────────────────────────────────────
+<FilesMatch "(^\.env|\.sql$|composer\.(json|lock)$|package(-lock)?\.json$|\.txt$|\.ps1$|^tmp_test_|^fix_|debug_)">
+    Require all denied
+</FilesMatch>
+
+# ────────────────────────────────────────────────────────────────
 # Statik asset cache (30 gün)
+# ────────────────────────────────────────────────────────────────
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType image/jpeg "access plus 30 days"
@@ -38,7 +55,9 @@ Options -Indexes
     ExpiresByType application/javascript "access plus 7 days"
 </IfModule>
 
+# ────────────────────────────────────────────────────────────────
 # Gzip sıkıştırma
+# ────────────────────────────────────────────────────────────────
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json text/xml image/svg+xml
 </IfModule>

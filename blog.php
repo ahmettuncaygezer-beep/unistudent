@@ -1,13 +1,13 @@
 <?php
 session_start();
-require_once __DIR__ . '/admin/api/database.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 // Blog yazılarını DB'den al
 $posts = [];
 try {
-    ensureTables();
-    $db    = getDB();
-    $stmt  = $db->query("SELECT id, title, slug, description, cover_image, tag, created_at
+    $stmt  = $pdo->query("SELECT id, title, slug, description, cover_image, tag, created_at
                          FROM blogs
                          WHERE (status IS NULL OR status = 'published')
                          ORDER BY created_at DESC");
@@ -84,14 +84,14 @@ $emojis = ['📊','💡','🏙️','🎓','📝','💰','🍽️','⚖️'];
     <meta property="og:url" content="https://example.com/unistudent/blog.php">
     <meta property="og:title" content="Blog — ÜniBütçe | Öğrenci Yaşam Rehberi 2026">
     <meta property="og:description" content="Üniversite öğrencileri için bütçe rehberleri, şehir maliyet analizleri, ve tasarruf ipuçları.">
-    <meta property="og:image" content="https://example.com/unistudent/assets/og-image.jpg">
+    <meta property="og:image" content="<?= htmlspecialchars(rtrim(getenv('APP_URL') ?: 'https://unibutce.com', '/') . '/assets/og-image.jpg', ENT_QUOTES) ?>">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://example.com/unistudent/blog.php">
     <meta property="twitter:title" content="Blog — ÜniBütçe">
     <meta property="twitter:description" content="Üniversite öğrencileri için bütçe rehberleri ve tasarruf ipuçları.">
-    <meta property="twitter:image" content="https://example.com/unistudent/assets/og-image.jpg">
+    <meta property="twitter:image" content="<?= htmlspecialchars(rtrim(getenv('APP_URL') ?: 'https://unibutce.com', '/') . '/assets/og-image.jpg', ENT_QUOTES) ?>">
 
     <title>Blog — ÜniBütçe | Öğrenci Yaşam Rehberi 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -99,6 +99,7 @@ $emojis = ['📊','💡','🏙️','🎓','📝','💰','🍽️','⚖️'];
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/auth.css">
     <style>
         /* ── Blog-specific overrides ── */
         .blog-hero-section {
@@ -339,6 +340,17 @@ $emojis = ['📊','💡','🏙️','🎓','📝','💰','🍽️','⚖️'];
 <body>
     <!-- ═══ NAVIGATION ═══ -->
     <?php require_once __DIR__ . '/includes/public_mega_nav.php'; ?>
+
+    <!-- Auth Modal (Panel menü linki tıklandığında açılır) -->
+    <?php include __DIR__ . '/includes/auth_modal.php'; ?>
+    <script>
+        // blog.php'de app.js yok — fallback'ler
+        window.CSRF_TOKEN = <?= json_encode(csrf_token()) ?>;
+        window.showOAuthComingSoon = function(provider) {
+            alert(provider + ' ile giriş yakında aktif olacak! E-posta ile kayıt olabilirsin.');
+        };
+    </script>
+    <script src="js/auth.js?v=<?= filemtime(__DIR__.'/js/auth.js') ?>"></script>
 
     <!-- ═══ BLOG HERO ═══ -->
     <section class="blog-hero-section">

@@ -2,6 +2,7 @@
 header('Content-Type: text/html; charset=UTF-8');
 require_once 'includes/db.php';
 require_once 'includes/auth_system.php';
+require_once 'includes/csrf.php';
 
 $auth = new AuthSystem($pdo);
 if (!$auth->isLoggedIn()) {
@@ -38,7 +39,9 @@ $totalExpense = $stats['total_out'] ?? 0;
     <link rel="stylesheet" href="css/dashboard.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="css/mobile.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="css/animations.css?v=<?php echo time(); ?>">
+    <script>window.CSRF_TOKEN = <?= json_encode(csrf_token()) ?>;</script>
     <script src="js/animations.js?v=<?php echo time(); ?>" defer></script>
+    <script src="js/utils.js?v=<?php echo time(); ?>" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body class="dashboard-body">

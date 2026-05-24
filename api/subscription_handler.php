@@ -40,8 +40,9 @@ try {
             if ($name === '' || $amount <= 0) {
                 json_response(['success' => false, 'message' => 'Ad ve tutar zorunlu.'], 422);
             }
+            $interval = ($cycle === 'yearly') ? 'INTERVAL 1 YEAR' : 'INTERVAL 1 MONTH';
             $stmt = $pdo->prepare("INSERT INTO subscriptions (user_id, name, amount, billing_cycle, category, next_billing)
-                VALUES (?, ?, ?, ?, ?, DATE_ADD(CURDATE(), INTERVAL 1 MONTH))");
+                VALUES (?, ?, ?, ?, ?, DATE_ADD(CURDATE(), $interval))");
             $stmt->execute([$user_id, $name, $amount, $cycle, $category]);
             json_response(['success' => true, 'id' => (int)$pdo->lastInsertId()]);
             break;

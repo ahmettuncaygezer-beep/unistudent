@@ -2,6 +2,7 @@
 header('Content-Type: text/html; charset=UTF-8');
 require_once 'includes/db.php';
 require_once 'includes/auth_system.php';
+require_once 'includes/csrf.php';
 
 $auth = new AuthSystem($pdo);
 if (!$auth->isLoggedIn()) {
@@ -23,10 +24,14 @@ $message = '';
 
 // Handle Profile Update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_profile') {
-    $fullName = $_POST['full_name'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $university = $_POST['university_name'] ?? '';
-    $newPassword = $_POST['new_password'] ?? '';
+    // CSRF doğrulaması
+    csrf_require();
+
+    $fullName = htmlspecialchars(trim($_POST['full_name'] ?? ''), ENT_QUOTES);
+    $email    = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+    $university = htmlspecialchars(trim($_POST['university_name'] ?? ''), ENT_QUOTES);
+    $newPassword   = (string)($_POST['new_password'] ?? '');
+    $confirmPassword = (string)($_POST['confirm_password'] ?? '');
 
     if (empty($fullName) || empty($email)) {
         $message = '<div class="toast error">Ad Soyad ve E-posta zorunludur.</div>';
@@ -43,6 +48,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 $params = [$fullName, $email, $university, $currentUser['id']];
 
                 if (!empty($newPassword)) {
+                    if ($newPassword !== $confirmPassword) {
+                        $message = '<div class="toast error">Yeni şifre ve onay şifresi eşleşmiyor.</div>';
+                        throw new Exception('Password mismatch');
+                    }
+                    if (strlen($newPassword) < 8) {
+                        $message = '<div class="toast error">Yeni şifre en az 8 karakter olmalı.</div>';
+                        throw new Exception('Password too short');
+                    }
                     $currentPassword = $_POST['current_password'] ?? '';
                     if (empty($currentPassword)) {
                         $message = '<div class="toast error">Şifre değiştirmek için şu anki şifreniz gereklidir.</div>';
@@ -74,7 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         // Already handled in message variable
         }
         catch (PDOException $e) {
-            $message = '<div class="toast error">Veritabanı hatası: ' . $e->getMessage() . '</div>';
+            error_log('profile update error: ' . $e->getMessage());
+            $message = '<div class="toast error">Güncelleme sırasında bir hata oluştu.</div>';
         }
 
     }
@@ -82,13 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 // Calculate Initials
 $initials = '';
-$names = explode(' ', $currentUser['full_name']);
+$names = explode(' ', $currentUser['full_name'] ?? '');
 foreach ($names as $name) {
     if (!empty($name)) {
         $initials .= strtoupper(substr($name, 0, 1));
     }
 }
-$initials = substr($initials, 0, 2);
+$initials = substr($initials, 0, 2) ?: 'KU';
+$__csrf = csrf_token();
 ?>
 
 <!DOCTYPE html>
@@ -233,6 +248,7 @@ endif; ?>
                 </div>
                 <form method="POST" action="">
                     <input type="hidden" name="action" value="update_profile">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($__csrf, ENT_QUOTES) ?>">
                     <div class="profile-form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
                         <div class="form-group-premium">
                             <label>Tam Ad Soyad</label>
@@ -262,7 +278,8 @@ endif; ?>
                 </div>
                 <form method="POST" action="">
                     <input type="hidden" name="action" value="update_profile">
-                    <input type="hidden" name="full_name" value="<?php echo htmlspecialchars($currentUser['full_name']); ?>">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($__csrf, ENT_QUOTES) ?>">
+                    <input type="hidden" name="full_name" value="<?= htmlspecialchars($currentUser['full_name'], ENT_QUOTES) ?>">
                     <input type="hidden" name="email" value="<?php echo htmlspecialchars($currentUser['email']); ?>">
                     
                     <div class="profile-form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
@@ -276,7 +293,7 @@ endif; ?>
                         </div>
                         <div class="form-group-premium">
                             <label>Şifre Onayı</label>
-                            <input type="password" class="input-glass" placeholder="••••••••••••">
+                            <input type="password" name="confirm_password" class="input-glass" placeholder="••••••••••••">
                         </div>
                         <div style="display: flex; align-items: flex-end;">
                             <button type="submit" class="btn-premium-submit" style="margin: 0; padding: 14px 40px; width: auto;">

@@ -1,10 +1,12 @@
-// ÜniBütçe Service Worker — v7
+// ÜniBütçe Service Worker — v8
 // Network-first HTML, stale-while-revalidate asset'ler, API cache yok.
 
-const VERSION      = 'v7';
+const VERSION      = 'v8';
 const STATIC_CACHE = `unibutce-static-${VERSION}`;
 const ASSET_CACHE  = `unibutce-assets-${VERSION}`;
 
+// NOT: app.js bu projede bulunmadığı için listeden çıkarıldı.
+// Tek tek cache'leme: bir dosya eksikse diğerleri yine de cache'lenir.
 const PRECACHE = [
     '/unistudent/',
     '/unistudent/index.php',
@@ -12,14 +14,23 @@ const PRECACHE = [
     '/unistudent/css/dashboard.css',
     '/unistudent/css/auth.css',
     '/unistudent/css/ui-helpers.css',
-    '/unistudent/app.js',
+    '/unistudent/css/mobile.css',
+    '/unistudent/css/animations.css',
     '/unistudent/js/utils.js',
+    '/unistudent/js/animations.js',
     '/unistudent/manifest.json',
 ];
 
 self.addEventListener('install', event => {
     self.skipWaiting();
-    event.waitUntil(caches.open(STATIC_CACHE).then(c => c.addAll(PRECACHE).catch(() => {})));
+    event.waitUntil(
+        caches.open(STATIC_CACHE).then(cache => {
+            // Her dosyayı ayrı ayrı cache'le — biri eksikse diğerleri etkilenmesin
+            return Promise.allSettled(
+                PRECACHE.map(url => cache.add(url).catch(() => {}))
+            );
+        })
+    );
 });
 
 self.addEventListener('activate', event => {

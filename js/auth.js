@@ -237,9 +237,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const authForms = document.querySelectorAll('.auth-form');
 
     // Function to open modal (can be called from other scripts)
-    window.openAuthModal = () => {
+    // mode: 'login' (default) veya 'register'
+    window.openAuthModal = (mode) => {
         authModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Disable scroll
+        document.body.style.overflow = 'hidden';
+        // Sekme değiştirme
+        if (mode === 'register') {
+            authTabs.forEach(t => t.classList.remove('active'));
+            authForms.forEach(f => f.classList.remove('active'));
+            const regTab = document.querySelector('.auth-tab[data-target="registerForm"]');
+            const regForm = document.getElementById('registerForm');
+            if (regTab)  regTab.classList.add('active');
+            if (regForm) regForm.classList.add('active');
+        } else {
+            authTabs.forEach(t => t.classList.remove('active'));
+            authForms.forEach(f => f.classList.remove('active'));
+            const loginTab = document.querySelector('.auth-tab[data-target="loginForm"]');
+            const loginForm = document.getElementById('loginForm');
+            if (loginTab)  loginTab.classList.add('active');
+            if (loginForm) loginForm.classList.add('active');
+        }
     };
 
     // Close modal

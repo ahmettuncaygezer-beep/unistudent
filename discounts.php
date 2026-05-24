@@ -37,6 +37,12 @@ const api = (u, opts = {}) => fetch(u, {
     headers: { 'X-CSRF-Token': window.CSRF_TOKEN || '', ...(opts.headers || {}) }, ...opts
 }).then(r => r.json());
 
+// HTML escape helper — XSS önlüyor
+const esc = s => s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;') : '';
+
+// URL güvenliği — javascript: protokolü engelle
+const safeUrl = u => (u && /^https?:\/\//.test(u)) ? u : '#';
+
 const isLoggedIn = !!<?= !empty($_SESSION['user_id']) ? 'true' : 'false' ?>;
 
 async function load() {
@@ -52,8 +58,8 @@ async function load() {
 
     if (isLoggedIn && r.user_monthly_savings > 0) {
         document.getElementById('ubSavingsCard').style.display = 'block';
-        document.getElementById('ubMonthlySave').textContent  = r.user_monthly_savings.toLocaleString('tr-TR') + '₺/ay';
-        document.getElementById('ubAnnualSave').textContent   = r.user_annual_savings.toLocaleString('tr-TR') + '₺';
+        document.getElementById('ubMonthlySave').textContent  = r.user_monthly_savings.toLocaleString('tr-TR') + '&#8378;/ay';
+        document.getElementById('ubAnnualSave').textContent   = r.user_annual_savings.toLocaleString('tr-TR') + '&#8378;';
     } else {
         document.getElementById('ubSavingsCard').style.display = 'none';
     }
@@ -62,17 +68,17 @@ async function load() {
         const claimed = +d.claimed > 0;
         return `<div class="ub-card" style="margin:0; display:flex; flex-direction:column; gap:10px;">
             <div style="display:flex; justify-content:space-between; align-items:start; gap:10px;">
-                <div style="font-size:2rem;">${d.icon || '🎁'}</div>
-                <span class="ub-pill ${claimed ? 'ub-pill-done' : 'ub-pill-planned'}">${claimed ? '✓ Aktif' : d.category}</span>
+                <div style="font-size:2rem;">${esc(d.icon) || '🎁'}</div>
+                <span class="ub-pill ${claimed ? 'ub-pill-done' : 'ub-pill-planned'}">${claimed ? '&#10003; Aktif' : esc(d.category)}</span>
             </div>
             <div>
-                <h3 style="margin:4px 0;">${d.brand}</h3>
-                <div style="font-size:.9rem; opacity:.85;"><b>${d.discount_text}</b> · ${parseFloat(d.monthly_saving).toLocaleString('tr-TR')}₺/ay değerinde</div>
-                <div style="font-size:.82rem; opacity:.65; margin-top:6px;">${d.how_to}</div>
+                <h3 style="margin:4px 0;">${esc(d.brand)}</h3>
+                <div style="font-size:.9rem; opacity:.85;"><b>${esc(d.discount_text)}</b> &middot; ${parseFloat(d.monthly_saving).toLocaleString('tr-TR')}₺/ay değerinde</div>
+                <div style="font-size:.82rem; opacity:.65; margin-top:6px;">${esc(d.how_to)}</div>
             </div>
             <div style="display:flex; gap:8px; margin-top:auto;">
-                <a href="${d.url}" target="_blank" rel="noopener" class="btn btn-primary" style="flex:1; text-align:center; padding:8px 12px; font-size:.88rem;">Siteye Git →</a>
-                ${isLoggedIn ? `<button onclick="toggle(${d.id}, ${claimed})" style="padding:8px 14px; border-radius:8px; cursor:pointer; background:${claimed ? 'rgba(255,59,48,.15)' : 'rgba(57,255,20,.15)'}; color:${claimed ? '#ff3b30' : '#39ff14'}; border:1px solid ${claimed ? 'rgba(255,59,48,.3)' : 'rgba(57,255,20,.3)'};">${claimed ? '× Çıkar' : '+ Ekle'}</button>` : ''}
+                <a href="${safeUrl(d.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="flex:1; text-align:center; padding:8px 12px; font-size:.88rem;">Siteye Git &rarr;</a>
+                ${isLoggedIn ? `<button onclick="toggle(${d.id}, ${claimed})" style="padding:8px 14px; border-radius:8px; cursor:pointer; background:${claimed ? 'rgba(255,59,48,.15)' : 'rgba(57,255,20,.15)'}; color:${claimed ? '#ff3b30' : '#39ff14'}; border:1px solid ${claimed ? 'rgba(255,59,48,.3)' : 'rgba(57,255,20,.3)'}">${claimed ? '&times; Çıkar' : '+ Ekle'}</button>` : ''}
             </div>
         </div>`;
     }).join('') || '<p style="opacity:.6;">Sonuç yok.</p>';

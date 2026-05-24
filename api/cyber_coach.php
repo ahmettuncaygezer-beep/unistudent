@@ -1,15 +1,20 @@
 <?php
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/cors.php';
+require_once __DIR__ . '/../includes/csrf.php';
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
+
+csrf_require();
 
 // ══ RATE LIMITER: 30 mesaj / 10 dakika (kullanıcı + IP) ══
-$ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+$ip = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown')[0]);
 $ip = preg_replace('/[^a-zA-Z0-9._:-]/', '', $ip);
 $uid = $_SESSION['user_id'] ?? 'guest';
 
@@ -41,6 +46,7 @@ if ($state['count'] >= $limit) {
     fclose($fp);
     $remaining = $windowSec - ($now - $state['window_start']);
     $mins = ceil($remaining / 60);
+    http_response_code(429);
     echo json_encode([
         'reply'      => "⏳ 10 dakikada $limit mesaj limitine ulaştın. Yaklaşık $mins dakika sonra tekrar sorabilirsin.",
         'rate_limit' => true,
@@ -106,11 +112,11 @@ foreach ($models as $model) {
         CURLOPT_HTTPHEADER     => [
             'Content-Type: application/json',
             'Authorization: Bearer ' . $apiKey,
-            'HTTP-Referer: http://localhost/unistudent',
+            'HTTP-Referer: ' . rtrim(SITE_URL, '/'),
             'X-Title: UniBütçe Cyber Coach',
         ],
         CURLOPT_TIMEOUT        => 25,
-        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYPEER => (env('APP_ENV', 'production') !== 'local'),
     ]);
 
     $response  = curl_exec($ch);

@@ -236,8 +236,17 @@ $catColors = [
         const fd = new FormData(e.target);
         fd.append('action', 'add');
         if (window.CSRF_TOKEN) fd.append('csrf_token', window.CSRF_TOKEN);
-        await fetch('api/subscription_handler.php', { method: 'POST', body: fd });
-        location.reload();
+        try {
+            const res = await fetch('api/subscription_handler.php', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Abonelik eklenemedi.');
+            }
+        } catch(err) {
+            alert('Bağlantı hatası.');
+        }
     });
 
     async function toggleSub(id) {
@@ -245,8 +254,12 @@ $catColors = [
         fd.append('action', 'toggle');
         fd.append('id', id);
         if (window.CSRF_TOKEN) fd.append('csrf_token', window.CSRF_TOKEN);
-        await fetch('api/subscription_handler.php', { method: 'POST', body: fd });
-        location.reload();
+        try {
+            const res = await fetch('api/subscription_handler.php', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.success) location.reload();
+            else alert(data.message || 'İşlem başarısız.');
+        } catch(err) { alert('Bağlantı hatası.'); }
     }
 
     async function deleteSub(id) {
@@ -255,8 +268,12 @@ $catColors = [
         fd.append('action', 'delete');
         fd.append('id', id);
         if (window.CSRF_TOKEN) fd.append('csrf_token', window.CSRF_TOKEN);
-        await fetch('api/subscription_handler.php', { method: 'POST', body: fd });
-        location.reload();
+        try {
+            const res = await fetch('api/subscription_handler.php', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.success) location.reload();
+            else alert(data.message || 'Silme başarısız.');
+        } catch(err) { alert('Bağlantı hatası.'); }
     }
     </script>
 

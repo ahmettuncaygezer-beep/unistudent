@@ -58,7 +58,7 @@ class ResearchEngine
             CURLOPT_TIMEOUT => $timeout,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0 Safari/537.36',
-            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYPEER => (getenv('APP_ENV') !== 'local'),
             CURLOPT_ENCODING => 'gzip, deflate',
         ]);
         $data = curl_exec($ch);
@@ -129,7 +129,7 @@ class ResearchEngine
                 CURLOPT_TIMEOUT => 12,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_USERAGENT => 'Mozilla/5.0 AppleWebKit/537.36 Chrome/122.0 Safari/537.36',
-                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYPEER => (getenv('APP_ENV') !== 'local'),
                 CURLOPT_ENCODING => 'gzip, deflate',
             ]);
             curl_multi_add_handle($mh, $ch);
@@ -274,8 +274,10 @@ if (!$json || !isset($json['output'])) {
 
 $aiOutput = $json['output'];
 
-// Debug log
-file_put_contents(__DIR__ . '/../../debug_ai_studio.txt', $aiOutput);
+// Debug log — sadece local ortamda
+if (getenv('APP_ENV') === 'local') {
+    file_put_contents(sys_get_temp_dir() . '/unibutce_ai_debug.txt', $aiOutput);
+}
 
 // ===== PHASE C: STRUCTURED PARSING =====
 function extractTag($output, $tag)
